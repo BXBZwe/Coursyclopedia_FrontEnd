@@ -3,7 +3,7 @@ package com.example.courscyclopedia.ui.main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.courscyclopedia.R
-import com.example.courscyclopedia.ui.fragments.FacultyFragment
+import com.example.courscyclopedia.ui.users.fragments.FacultyFragment
 
 class MainActivity : AppCompatActivity() {
 

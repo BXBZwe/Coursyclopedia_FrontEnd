@@ -1,4 +1,4 @@
-package com.example.courscyclopedia.ui.fragments
+package com.example.courscyclopedia.ui.users.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -10,9 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.courscyclopedia.databinding.FragmentFacultyBinding
 import com.example.courscyclopedia.repository.FacultyRepository
-import com.example.courscyclopedia.ui.adapter.FacultyAdapter
-import com.example.courscyclopedia.ui.viewmodels.FacultyViewModelFactory
-import com.example.courscyclopedia.ui.viewmodels.FacultyViewmodel
+import com.example.courscyclopedia.ui.users.adapter.FacultyAdapter
+import com.example.courscyclopedia.ui.users.viewmodels.FacultyViewModelFactory
+import com.example.courscyclopedia.ui.users.viewmodels.FacultyViewmodel
 
 class FacultyFragment : Fragment() {
     private var _binding: FragmentFacultyBinding? = null

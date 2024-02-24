@@ -1,4 +1,4 @@
-package com.example.courscyclopedia.ui.adapter
+package com.example.courscyclopedia.ui.users.adapter
 
 import android.view.LayoutInflater
 import android.view.View

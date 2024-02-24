@@ -1,4 +1,4 @@
-package com.example.courscyclopedia.ui.viewmodels
+package com.example.courscyclopedia.ui.users.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
