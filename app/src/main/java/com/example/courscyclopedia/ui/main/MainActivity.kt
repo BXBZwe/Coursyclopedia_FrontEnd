@@ -2,30 +2,24 @@ package com.example.courscyclopedia.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.example.courscyclopedia.databinding.ActivityMainBinding
-import com.example.courscyclopedia.viewmodel.FacultyViewModel
+import com.example.courscyclopedia.R
+import com.example.courscyclopedia.ui.fragments.FacultyFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var facultyViewModel: FacultyViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
-        // Initialize ViewModel
-        facultyViewModel = ViewModelProvider(this)[FacultyViewModel::class.java]
-
-        // Observe the LiveData from ViewModel
-        facultyViewModel.faculties.observe(this) { faculties ->
-            // Update UI using View Binding
-            binding.tvFacultyData.text = faculties.joinToString(separator = "\n") { it.facultyName }
+        // Check that the activity is using the layout version with the fragment_container FrameLayout
+        if (savedInstanceState == null) {
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            // Otherwise, add the fragment to the 'fragmentContainer'
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, FacultyFragment())
+                .commit()
         }
-
-        // Fetch the faculties
-        facultyViewModel.fetchFaculties()
     }
 }

@@ -3,12 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.MainActivity">
+    tools:context=".ui.fragments.FacultyFragment">
 
-    <!-- Placeholder for the fragment -->
-    <FrameLayout
-        android:id="@+id/fragmentContainer"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_faculties"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        tools:listitem="@layout/item_faculty" />
 
 </RelativeLayout>
