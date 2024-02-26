@@ -36,4 +36,27 @@ class SubjectsViewModel(private val repository: SubjectsRepository) : ViewModel(
             _subjects.value = subjectsList
         }
     }
+
+    fun loadSubjectsForSelectedFaculty(facultyId: String) {
+        viewModelScope.launch {
+            val allSubjectsForFaculty = mutableListOf<Subject>()
+
+            try {
+                // Fetch majors for the selected faculty
+                val majorsList = repository.getMajorsForFaculty(facultyId)
+                _majors.value = majorsList
+
+                // For each major, fetch the subjects and add them to the list
+                majorsList.forEach { major ->
+                    val subjectsList = repository.getSubjectsForMajor(major.id)
+                    allSubjectsForFaculty.addAll(subjectsList)
+                }
+
+                // Post the combined list of all subjects to the LiveData
+                _subjects.value = allSubjectsForFaculty
+            } catch (e: Exception) {
+                // Handle any exceptions here, such as by posting an error message to the UI
+            }
+        }
+    }
 }

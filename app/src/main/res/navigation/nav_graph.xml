@@ -24,6 +24,20 @@
         <argument
             android:name="facultyId"
             app:argType="string" />
+
+        <action
+            android:id="@+id/action_subjectsFragment_to_subjectDetailFragment"
+            app:destination="@id/SubjectDetailFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/SubjectDetailFragment"
+        android:name="com.example.courscyclopedia.ui.users.fragments.SubjectDetailFragment"
+        android:label="Subject Details">
+        <argument
+            android:name="subjectId"
+            app:argType="string" />
+        <!-- Define other arguments as needed -->
     </fragment>
 </navigation>
 
