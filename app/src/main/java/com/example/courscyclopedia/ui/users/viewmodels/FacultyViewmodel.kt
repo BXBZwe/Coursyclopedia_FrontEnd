@@ -3,10 +3,12 @@ package com.example.courscyclopedia.ui.users.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.courscyclopedia.model.Faculty
 import com.example.courscyclopedia.repository.FacultyRepository
+import kotlinx.coroutines.launch
 
-class FacultyViewmodel(private val facultyRepository: FacultyRepository) : ViewModel() {
+class FacultyViewModel(private val facultyRepository: FacultyRepository) : ViewModel() {
     private val _faculties = MutableLiveData<List<Faculty>>()
     val faculties: LiveData<List<Faculty>> = _faculties
 
@@ -18,14 +20,19 @@ class FacultyViewmodel(private val facultyRepository: FacultyRepository) : ViewM
     }
 
     private fun fetchFaculties() {
-        facultyRepository.getAllFaculties { facultyResponse ->
-            facultyResponse?.data?.let {
-                _faculties.postValue(it)
-            } ?: run {
-                _faculties.postValue(emptyList()) // Post an empty list if the response is null
-                _message.postValue("Failed to fetch data")
+        viewModelScope.launch {
+            try {
+                val response = facultyRepository.getAllFaculties()
+                if (response != null && response.isSuccessful) {
+                    _faculties.postValue(response.body()?.data ?: emptyList())
+                } else {
+                    _message.postValue("Failed to fetch data")
+                }
+            } catch (e: Exception) {
+                _message.postValue(e.message ?: "An error occurred")
             }
         }
     }
 }
+
 

@@ -2,14 +2,14 @@ package com.example.courscyclopedia.ui.users.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.courscyclopedia.repository.FacultyRepository
+import com.example.courscyclopedia.repository.SubjectsRepository
 
+class SubjectsViewModelFactory(private val repository: SubjectsRepository) : ViewModelProvider.Factory {
 
-class FacultyViewModelFactory(private val facultyRepository: FacultyRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(FacultyViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(SubjectsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return FacultyViewModel(facultyRepository) as T
+            return SubjectsViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
