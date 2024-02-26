@@ -26,5 +26,15 @@ class SubjectsRepository(private val apiService: ApiService) {
             throw Exception("Error fetching subjects: ${response.errorBody()?.string()}")
         }
     }
+
+    suspend fun getSubjectById(subjectId: String): Subject? {
+        val response = apiService.getSubjectById(subjectId)
+        if (response.isSuccessful) {
+            return response.body()?.data
+        } else {
+            throw Exception("Error fetching subject: ${response.errorBody()?.string()}")
+        }
+    }
+
 }
 

@@ -2,9 +2,9 @@ package com.example.courscyclopedia.model
 
 import com.google.gson.annotations.SerializedName
 data class Subject(
-    @SerializedName("_id") val id: String?,
+    @SerializedName("ID") val id: String,
     @SerializedName("SubjectCode") val subjectCode: String,
-    @SerializedName("Name") val name: String,
+    @SerializedName("Name") val subjectname: String,
     @SerializedName("Professors") val professors: List<String>,
     @SerializedName("SubjectDescription") val subjectDescription: String,
     @SerializedName("Campus") val campus: String,
@@ -13,6 +13,6 @@ data class Subject(
     @SerializedName("CoRequisite") val coRequisite: List<String>,
     @SerializedName("Likes") val likes: Int,
     @SerializedName("SubjectStatus") val subjectStatus: String,
-    @SerializedName("LastUpdated") val lastUpdated: String, 
+    @SerializedName("LastUpdated") val lastUpdated: String,
     @SerializedName("AvailableDuration") val availableDuration: Int
 )

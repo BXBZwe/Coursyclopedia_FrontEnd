@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.users.fragments.SubjectDetailFragment">
+
+    <TextView
+        android:id="@+id/subjectNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Subject Name"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <!-- Add more views as needed for displaying subject details -->
+    <!-- Example: Description -->
+    <TextView
+        android:id="@+id/subjectCodeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Subject Code"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/subjectDescriptionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Subject Description"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/campusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Campus"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/creditTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Credits"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/likesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Likes"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/availableDurationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Available Duration"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Add other TextViews or Views for displaying other details like professors, credits, etc. -->
+
+</LinearLayout>

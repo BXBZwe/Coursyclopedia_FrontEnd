@@ -2,6 +2,7 @@ package com.example.courscyclopedia.network
 
 import com.example.courscyclopedia.model.FacultyResponse
 import com.example.courscyclopedia.model.MajorResponse
+import com.example.courscyclopedia.model.SubjectDetailResponse
 import com.example.courscyclopedia.model.SubjectResponse
 import retrofit2.Response
 import retrofit2.http.*
@@ -21,6 +22,9 @@ interface ApiService {
 
     @GET("api/majors/getsubjectsforeachmajor/{id}")
     suspend fun getSubjectsForMajor(@Path("id") majorId: String): Response<SubjectResponse>
+
+    @GET("api/subjects/geteachsubject/{id}")
+    suspend fun getSubjectById(@Path("id") subjectId: String): Response<SubjectDetailResponse>
 
 }
 
