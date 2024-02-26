@@ -1,5 +1,6 @@
 package com.example.courscyclopedia.ui.users.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ class SubjectsAdapter : RecyclerView.Adapter<SubjectsAdapter.SubjectViewHolder>(
         private val textViewSubjectName: TextView = itemView.findViewById(R.id.textViewSubjectName)
 
         fun bind(subject: Subject) {
+            Log.d("SubjectsAdapter", "Binding subject: ${subject.name}")
             textViewSubjectName.text = subject.name
         }
     }
@@ -32,7 +34,7 @@ class SubjectsAdapter : RecyclerView.Adapter<SubjectsAdapter.SubjectViewHolder>(
     override fun getItemCount() = subjectsList.size
 
     fun submitList(subjects: List<Subject>) {
-        subjectsList = subjects
+        this.subjectsList = subjects
         notifyDataSetChanged()
     }
 }

@@ -20,36 +20,27 @@ class SubjectsFragment : Fragment(R.layout.fragment_subjects) {  // Assuming fra
     private val binding get() = _binding!!
     private lateinit var subjectsAdapter: SubjectsAdapter
 
+    // Inside onViewCreated of SubjectFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSubjectsBinding.bind(view)
 
         // Initialize the adapter
         subjectsAdapter = SubjectsAdapter()
+        binding.recyclerViewSubjects.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewSubjects.adapter = subjectsAdapter
-        binding.recyclerViewSubjects.layoutManager = LinearLayoutManager(context)
 
         // ViewModel setup
         val repository = SubjectsRepository(RetrofitClient.apiService)
         val factory = SubjectsViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory)[SubjectsViewModel::class.java]
 
-        // Rest of the code...
+        // Fetch the facultyId from the arguments
         val facultyId = arguments?.let { SubjectsFragmentArgs.fromBundle(it).facultyId }
             ?: throw IllegalArgumentException("Must pass facultyId")
 
-
-        // Fetch the majors for the faculty
-        viewModel.fetchMajorsForFaculty(facultyId)
-
-        // Observe the LiveData for majors
-        viewModel.majors.observe(viewLifecycleOwner) { majors ->
-            // Handle multiple majors here
-            // For simplicity, fetching subjects for the first major
-            if (majors.isNotEmpty()) {
-                viewModel.fetchSubjectsForMajor(majors.first().id)
-            }
-        }
+        // Load the subjects for the selected faculty
+        viewModel.loadSubjectsForSelectedFaculty(facultyId)
 
         // Observe the LiveData for subjects
         viewModel.subjects.observe(viewLifecycleOwner) { subjects ->
@@ -57,6 +48,7 @@ class SubjectsFragment : Fragment(R.layout.fragment_subjects) {  // Assuming fra
             subjectsAdapter.submitList(subjects)
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

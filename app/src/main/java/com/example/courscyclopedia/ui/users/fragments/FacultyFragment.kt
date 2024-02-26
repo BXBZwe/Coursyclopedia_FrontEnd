@@ -12,14 +12,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.courscyclopedia.databinding.FragmentFacultyBinding
 import com.example.courscyclopedia.network.RetrofitClient
 import com.example.courscyclopedia.repository.FacultyRepository
+import com.example.courscyclopedia.repository.SubjectsRepository
 import com.example.courscyclopedia.ui.users.adapter.FacultyAdapter
 import com.example.courscyclopedia.ui.users.viewmodels.FacultyViewModel
 import com.example.courscyclopedia.ui.users.viewmodels.FacultyViewModelFactory
+import com.example.courscyclopedia.ui.users.viewmodels.SubjectsViewModel
+import com.example.courscyclopedia.ui.users.viewmodels.SubjectsViewModelFactory
 
 class FacultyFragment : Fragment() {
     private var _binding: FragmentFacultyBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: FacultyViewModel
+    private lateinit var subjectsViewModel: SubjectsViewModel
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentFacultyBinding.inflate(inflater, container, false)
@@ -31,28 +36,34 @@ class FacultyFragment : Fragment() {
         // Initialize the ViewModel
         val apiService = RetrofitClient.apiService
         val facultyRepository = FacultyRepository(apiService)
+        val subjectsRepository = SubjectsRepository(apiService) // This line was missing
         val viewModelFactory = FacultyViewModelFactory(facultyRepository)
+        val subjectsViewModelFactory = SubjectsViewModelFactory(subjectsRepository) // Now you have the repository for this factory
+
         viewModel = ViewModelProvider(this, viewModelFactory)[FacultyViewModel::class.java]
+        subjectsViewModel = ViewModelProvider(this, subjectsViewModelFactory)[SubjectsViewModel::class.java]
+
 
         // Observe the LiveData from the ViewModel
         viewModel.faculties.observe(viewLifecycleOwner) { faculties ->
             if (faculties.isNotEmpty()) {
-                // Pass the click listener to the adapter
                 val adapter = FacultyAdapter(faculties) { faculty ->
-                    // When a faculty item is clicked, navigate to the SubjectsFragment with the faculty ID
+                    // Trigger the loading of subjects for the selected faculty
+                    subjectsViewModel.loadSubjectsForSelectedFaculty(faculty.id)
+
+                    // After initiating the loading of subjects, navigate to the SubjectsFragment
+                    // You might want to navigate after confirming that subjects are loaded, which could be done by observing another LiveData in the ViewModel.
                     val action = FacultyFragmentDirections.actionFacultyFragmentToSubjectsFragment(faculty.id)
                     findNavController().navigate(action)
                 }
                 binding.rvFaculties.adapter = adapter
                 binding.rvFaculties.layoutManager = LinearLayoutManager(context)
             } else {
-                // Handle empty state
                 Log.d("FacultyFragment", "No faculties received")
             }
         }
 
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
