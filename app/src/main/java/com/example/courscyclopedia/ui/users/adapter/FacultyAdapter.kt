@@ -1,4 +1,4 @@
-package com.example.courscyclopedia.ui.adapter
+package com.example.courscyclopedia.ui.users.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.courscyclopedia.R
 import com.example.courscyclopedia.model.Faculty
 
-class FacultyAdapter(private val facultyList: List<Faculty>) : RecyclerView.Adapter<FacultyAdapter.FacultyViewHolder>() {
+class FacultyAdapter(private val facultyList: List<Faculty>, private val onFacultyClick: (Faculty) -> Unit) : RecyclerView.Adapter<FacultyAdapter.FacultyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FacultyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_faculty, parent, false)
-        return FacultyViewHolder(view)
+        return FacultyViewHolder(view, onFacultyClick)
     }
 
     override fun onBindViewHolder(holder: FacultyViewHolder, position: Int) {
@@ -22,12 +22,15 @@ class FacultyAdapter(private val facultyList: List<Faculty>) : RecyclerView.Adap
 
     override fun getItemCount() = facultyList.size
 
-    class FacultyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class FacultyViewHolder(itemView: View, private val onFacultyClick: (Faculty) -> Unit) : RecyclerView.ViewHolder(itemView) {
         private val tvFacultyName: TextView = itemView.findViewById(R.id.tvFacultyName)
 
         fun bind(faculty: Faculty) {
             tvFacultyName.text = faculty.facultyName
-            // You can add click listeners or additional bindings here
+            itemView.setOnClickListener {
+                onFacultyClick(faculty) // Pass the entire Faculty object
+            }
         }
     }
+
 }

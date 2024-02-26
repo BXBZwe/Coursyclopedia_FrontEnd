@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress NavigationFile -->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/facultyFragment"> <!-- Add this line -->
+
+    <!-- Define the FacultyFragment as a starting destination -->
+    <fragment
+        android:id="@+id/facultyFragment"
+        android:name="com.example.courscyclopedia.ui.users.fragments.FacultyFragment"
+        android:label="faculty_fragment">
+        <!-- Define an action to navigate to the SubjectsFragment -->
+        <action
+            android:id="@+id/action_facultyFragment_to_subjectsFragment"
+            app:destination="@id/subjectsFragment" />
+    </fragment>
+
+    <!-- Define the SubjectsFragment as a destination -->
+    <fragment
+        android:id="@+id/subjectsFragment"
+        android:name="com.example.courscyclopedia.ui.users.fragments.SubjectsFragment"
+        android:label="subjects_fragment">
+        <argument
+            android:name="facultyId"
+            app:argType="string" />
+    </fragment>
+</navigation>
+
