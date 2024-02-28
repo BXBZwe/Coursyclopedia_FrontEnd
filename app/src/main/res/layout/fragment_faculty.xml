@@ -5,11 +5,39 @@
     android:layout_height="match_parent"
     tools:context=".ui.users.fragments.FacultyFragment">
 
+    <!-- "Choose Your Faculty" TextView at the top -->
+    <TextView
+        android:id="@+id/tvChooseFaculty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_choose_faculty"
+        android:gravity="center_horizontal"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:paddingTop="16dp"
+        android:paddingBottom="4dp"
+        android:layout_alignParentTop="true" />
+
+    <!-- RecyclerView below the "Choose Your Faculty" TextView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_faculties"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/tvChooseFaculty"
+        android:layout_above="@+id/tvFacultyInfo"
         android:padding="16dp"
         tools:listitem="@layout/item_faculty" />
+
+    <!-- Info TextView at the bottom -->
+    <TextView
+        android:id="@+id/tvFacultyInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_info"
+        android:gravity="center_horizontal"
+        android:textSize="14sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

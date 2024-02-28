@@ -73,5 +73,6 @@ dependencies {
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
     implementation ("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation ("androidx.navigation:navigation-ui-ktx:2.7.7")
-
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("androidx.cardview:cardview:1.0.0")
 }
