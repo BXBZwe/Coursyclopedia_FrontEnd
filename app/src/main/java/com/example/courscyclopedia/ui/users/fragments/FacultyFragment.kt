@@ -44,15 +44,11 @@ class FacultyFragment : Fragment() {
         subjectsViewModel = ViewModelProvider(this, subjectsViewModelFactory)[SubjectsViewModel::class.java]
 
 
-        // Observe the LiveData from the ViewModel
         viewModel.faculties.observe(viewLifecycleOwner) { faculties ->
             if (faculties.isNotEmpty()) {
                 val adapter = FacultyAdapter(faculties) { faculty ->
-                    // Trigger the loading of subjects for the selected faculty
                     subjectsViewModel.loadSubjectsForSelectedFaculty(faculty.id)
 
-                    // After initiating the loading of subjects, navigate to the SubjectsFragment
-                    // You might want to navigate after confirming that subjects are loaded, which could be done by observing another LiveData in the ViewModel.
                     val action = FacultyFragmentDirections.actionFacultyFragmentToSubjectsFragment(faculty.id)
                     findNavController().navigate(action)
                 }

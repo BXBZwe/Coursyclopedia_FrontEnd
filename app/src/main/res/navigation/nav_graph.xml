@@ -5,34 +5,15 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/facultyFragment"> <!-- Add this line -->
 
-    <!-- Define the FacultyFragment as a starting destination -->
     <fragment
         android:id="@+id/facultyFragment"
         android:name="com.example.courscyclopedia.ui.users.fragments.FacultyFragment"
         android:label="faculty_fragment">
-        <!-- Define an action to navigate to the SubjectsFragment -->
         <action
             android:id="@+id/action_facultyFragment_to_subjectsFragment"
             app:destination="@id/subjectsFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/userFormFragment"
-        android:name="com.example.courscyclopedia.ui.users.fragments.UserFormFragment"
-        android:label="user_form_fragment">
-        <!-- Add any arguments needed for the UserFormFragment here -->
-        <!-- Example argument for email -->
-        <argument
-            android:name="email"
-            app:argType="string" />
-    </fragment>
-
-    <!-- Assuming MainActivity is where you want to start the UserFormFragment from -->
-    <action
-        android:id="@+id/action_global_userFormFragment"
-        app:destination="@id/userFormFragment" />
-
-    <!-- Define the SubjectsFragment as a destination -->
     <fragment
         android:id="@+id/subjectsFragment"
         android:name="com.example.courscyclopedia.ui.users.fragments.SubjectsFragment"
@@ -53,9 +34,13 @@
         <argument
             android:name="subjectId"
             app:argType="string" />
-        <!-- Define other arguments as needed -->
     </fragment>
 
+    <fragment
+        android:id="@+id/professorFragment"
+        android:name="com.example.courscyclopedia.ui.professors.fragments.ProfessorFragment"
+        android:label="professor_fragment">
+    </fragment>
 
 </navigation>
 

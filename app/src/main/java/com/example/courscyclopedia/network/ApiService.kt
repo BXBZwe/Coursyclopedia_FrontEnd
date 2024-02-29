@@ -29,6 +29,9 @@ interface ApiService {
 
     @GET("api/users/getuserbyemail/{email}")
     suspend fun getUserbyEmail(@Path("email") email: String): Response<UserResponse>
+
+    @GET("api/subjects/getallsubjects")
+    suspend fun getAllSubjects(): Response<SubjectResponse>
 }
 
 

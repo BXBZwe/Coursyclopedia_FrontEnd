@@ -4,6 +4,7 @@ package com.example.courscyclopedia.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -48,8 +49,10 @@ class SignInActivity : AppCompatActivity() {
             .build()
 
         val googleSignInClient = GoogleSignIn.getClient(this, gso)
-        val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
+        googleSignInClient.signOut().addOnCompleteListener {
+            val signInIntent = googleSignInClient.signInIntent
+            startActivityForResult(signInIntent, RC_SIGN_IN)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -61,6 +64,7 @@ class SignInActivity : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
+                Log.e("SignInActivity", "Google sign in failed", e)
                 Toast.makeText(this, "Google sign in failed: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -70,14 +74,74 @@ class SignInActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    // Sign-in is successful
                     val user = auth.currentUser
-                    Toast.makeText(this, "Signed in as ${user?.displayName}", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
+                    user?.email?.let { email ->
+                        if (email.endsWith("gmail.com")) {
+                            if (email.matches(Regex("^u\\d{7}@gmail.com$"))) {
+                                // Identified as a student
+                                Toast.makeText(this, "Welcome student ${user.displayName}", Toast.LENGTH_SHORT).show()
+                                navigateToStudentHomePage()
+                            } else {
+                                // Identified as a professor
+                                Toast.makeText(this, "Welcome professor ${user.displayName}", Toast.LENGTH_SHORT).show()
+                                navigateToProfessorHomePage()
+                            }
+                        } else {
+                            // Email does not end with "au.edu"
+                            Toast.makeText(this, "Please sign in with your academic email", Toast.LENGTH_LONG).show()
+                            user?.delete()?.addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Log.d("SignInActivity", "Non-academic user deleted.")
+                                }
+                            }
+
+                            // Sign out from Google and Firebase
+                            signOutFromGoogle()
+                            // Sign out the user from Google and revoke access
+                            signOutFromGoogle()                       }
+                    }
                 } else {
+                    // Authentication failed
+                    Log.e("SignInActivity", "Authentication failed: ${task.exception?.message}")
                     Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()
                 }
             }
     }
+
+    private fun navigateToStudentHomePage() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra("ROLE", "STUDENT")
+        }
+        startActivity(intent)
+        finish()
+    }
+
+    private fun navigateToProfessorHomePage() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra("ROLE", "PROFESSOR")
+        }
+        startActivity(intent)
+        finish()
+    }
+    private fun signOutFromGoogle() {
+        // Configure Google Sign In
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        // Build a GoogleSignInClient with the options specified by gso
+        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        // Sign out from Google
+        googleSignInClient.signOut().addOnCompleteListener(this) {
+            googleSignInClient.revokeAccess().addOnCompleteListener(this) {
+                googleSignInClient.signOut()  // Clear the default account
+            }
+        }
+    }
+
+
 }
 

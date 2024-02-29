@@ -2,9 +2,13 @@ package com.example.courscyclopedia.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import com.example.courscyclopedia.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -23,6 +27,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         mAuth = FirebaseAuth.getInstance()
 
+        Handler(Looper.getMainLooper()).post {
+            handleIntent()
+        }
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -38,11 +45,9 @@ class MainActivity : AppCompatActivity() {
             val userName = user.displayName
             textView.text = "Welcome, " + userName
         } else {
-            // Handle the case where the user is not signed in
         }
 
 
-// Inside onCreate() method
         val sign_out_button = findViewById<Button>(R.id.logout_button)
         sign_out_button.setOnClickListener {
             signOutAndStartSignInActivity()
@@ -57,5 +62,25 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun handleIntent() {
+        when (intent.getStringExtra("ROLE")) {
+            "STUDENT" -> navigateToStudentHomePage()
+            "PROFESSOR" -> navigateToProfessorHomePage()
+        }
+        // Clear the ROLE from the intent after handling it
+        intent.removeExtra("ROLE")
+    }
+
+
+    private fun navigateToStudentHomePage() {
+        Log.d("MainActivity", "About to navigate to student home page")
+        findNavController(R.id.nav_host_fragment).navigate(R.id.facultyFragment)
+    }
+
+    private fun navigateToProfessorHomePage() {
+        Log.d("MainActivity", "About to navigate to professor home page")
+        findNavController(R.id.nav_host_fragment).navigate(R.id.professorFragment)
     }
 }
