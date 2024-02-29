@@ -2,7 +2,9 @@ package com.example.courscyclopedia.repository
 
 import com.example.courscyclopedia.model.Major
 import com.example.courscyclopedia.model.Subject
+import com.example.courscyclopedia.model.SubjectResponse
 import com.example.courscyclopedia.network.ApiService
+import retrofit2.Response
 
 class SubjectsRepository(private val apiService: ApiService) {
 
@@ -34,6 +36,10 @@ class SubjectsRepository(private val apiService: ApiService) {
         } else {
             throw Exception("Error fetching subject: ${response.errorBody()?.string()}")
         }
+    }
+
+    suspend fun getAllSubjects(): Response<SubjectResponse> {
+        return apiService.getAllSubjects()
     }
 
 }
