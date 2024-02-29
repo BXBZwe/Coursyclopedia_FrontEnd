@@ -10,4 +10,7 @@
     <string name="sign_up_with_google">Sign up with Google</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="item_fragment_image">Faculty Image</string>
+    <string name="fragment_choose_faculty">Choose Your Faculty</string>
+    <string name="fragment_info">Choose one time and your faculty will be permenant.</string>
 </resources>

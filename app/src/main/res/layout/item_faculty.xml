@@ -1,24 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Using a CardView as the root to provide elevation and rounded corners -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="16dp">
+    app:cardElevation="2dp"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="8dp">
 
-    <TextView
-        android:id="@+id/tvFacultyName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_vertical"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:background="@android:color/black"
-        android:textColor="@android:color/white"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:layout_marginEnd="8dp" />
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/rounded_background"> <!-- Custom drawable for rounded corners and border -->
 
-    <!-- You can add more views here if needed -->
-</LinearLayout>
+        <ImageView
+            android:id="@+id/ivFacultyImage"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/vms_transpa"
+            android:contentDescription="@string/item_fragment_image"
+            android:layout_marginEnd="16dp"/>
+
+        <TextView
+            android:id="@+id/tvFacultyName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="VINCENT MARY\nSCHOOL OF SCIENCE AND TECHNOLOGY"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="@android:color/white"
+            android:minHeight="48dp"
+            android:lines="2"
+            android:drawablePadding="8dp"
+            android:drawableTint="@android:color/white" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

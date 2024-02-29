@@ -19,20 +19,37 @@ class FacultyViewModel(private val facultyRepository: FacultyRepository) : ViewM
         fetchFaculties()
     }
 
+//    private fun fetchFaculties() {
+//        viewModelScope.launch {
+//            try {
+//                val response = facultyRepository.getAllFaculties()
+//                if (response != null && response.isSuccessful) {
+//                    _faculties.postValue(response.body()?.data ?: emptyList())
+//                } else {
+//                    _message.postValue("Failed to fetch data")
+//                }
+//            } catch (e: Exception) {
+//                _message.postValue(e.message ?: "An error occurred")
+//            }
+//        }
+//    }
+
     private fun fetchFaculties() {
         viewModelScope.launch {
             try {
                 val response = facultyRepository.getAllFaculties()
-                if (response != null && response.isSuccessful) {
+                if (response.isSuccessful) {
+                    // Use Elvis operator ?: to provide an empty list in case body()?.data is null
                     _faculties.postValue(response.body()?.data ?: emptyList())
                 } else {
-                    _message.postValue("Failed to fetch data")
+                    _message.postValue("Failed to fetch data: ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
                 _message.postValue(e.message ?: "An error occurred")
             }
         }
     }
+
 }
 
 
