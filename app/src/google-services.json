@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "605909852626",
+    "project_id": "coursyclopedia",
+    "storage_bucket": "coursyclopedia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605909852626:android:98ec937498c510b1ca680b",
+        "android_client_info": {
+          "package_name": "com.example.courscyclopedia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605909852626-59tek0jsp2bjsro1p9j73sl017ahnnms.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.courscyclopedia",
+            "certificate_hash": "1fc645ee4db9138677f618e8504e1b4e173e1ad2"
+          }
+        },
+        {
+          "client_id": "605909852626-sl80ji11esl86rranr8p6crtn8u5t2tg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNMCpGSngEc7ak-2zXb6acsRNaD_ZhFxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "605909852626-sl80ji11esl86rranr8p6crtn8u5t2tg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

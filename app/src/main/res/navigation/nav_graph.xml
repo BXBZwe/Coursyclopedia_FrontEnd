@@ -16,6 +16,22 @@
             app:destination="@id/subjectsFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/userFormFragment"
+        android:name="com.example.courscyclopedia.ui.users.fragments.UserFormFragment"
+        android:label="user_form_fragment">
+        <!-- Add any arguments needed for the UserFormFragment here -->
+        <!-- Example argument for email -->
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
+
+    <!-- Assuming MainActivity is where you want to start the UserFormFragment from -->
+    <action
+        android:id="@+id/action_global_userFormFragment"
+        app:destination="@id/userFormFragment" />
+
     <!-- Define the SubjectsFragment as a destination -->
     <fragment
         android:id="@+id/subjectsFragment"
@@ -39,5 +55,7 @@
             app:argType="string" />
         <!-- Define other arguments as needed -->
     </fragment>
+
+
 </navigation>
 

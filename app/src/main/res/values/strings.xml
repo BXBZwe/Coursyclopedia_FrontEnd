@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Courscyclopedia</string>
+    <string name="default_web_client_id">605909852626-59tek0jsp2bjsro1p9j73sl017ahnnms.apps.googleusercontent.com</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="submit">Submit</string>
+    <string name="loading">Loading..</string>
+    <string name="logout">Logout</string>
+    <string name="sign_up_with_google">Sign up with Google</string>
 </resources>
