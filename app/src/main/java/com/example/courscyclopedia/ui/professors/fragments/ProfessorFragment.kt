@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.courscyclopedia.databinding.FragmentProfessorBinding
 import com.example.courscyclopedia.network.RetrofitClient
@@ -32,12 +33,22 @@ class ProfessorFragment : Fragment() {
         val viewModelFactory = ProfessorViewModelFactory(subjectsRepository)
         viewModel = ViewModelProvider(this, viewModelFactory)[ProfessorViewModel::class.java]
 
-        val adapter = SubjectsAdapter { }
+        val adapter = SubjectsAdapter {subject ->
+            val action = ProfessorFragmentDirections.actionProfessorFragmentToSubjectDetailFragment(subject.id)
+            findNavController().navigate(action)
+        }
         binding.rvSubjects.layoutManager = LinearLayoutManager(context)
         binding.rvSubjects.adapter = adapter
 
         viewModel.subjects.observe(viewLifecycleOwner) { subjects ->
             adapter.submitList(subjects)
+        }
+
+        binding.btnAddSubject.setOnClickListener {
+            // Assuming you have set up a navigation action in your nav_graph.xml
+            // from ProfessorFragment to AddSubjectFragment as `action_professorFragment_to_addSubjectFragment`
+            val action = ProfessorFragmentDirections.actionProfessorFragmentToAddSubjectFragment()
+            findNavController().navigate(action)
         }
 
     }

@@ -11,8 +11,24 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph"
-        app:defaultNavHost="true" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="604dp"
+        android:background="@color/red"
+        android:text="@string/logout"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/name"
@@ -22,20 +38,12 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/logout_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.564"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nav_host_fragment" />
+        app:layout_constraintTop_toBottomOf="@+id/nav_host_fragment"
+        app:layout_constraintVertical_bias="1.0" />
 
     <!-- New Button for logout -->
-    <Button
-        android:id="@+id/logout_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/logout"
-        android:background="@color/red"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
