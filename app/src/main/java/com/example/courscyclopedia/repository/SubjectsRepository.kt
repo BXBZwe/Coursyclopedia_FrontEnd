@@ -1,6 +1,8 @@
 package com.example.courscyclopedia.repository
 
+import com.example.courscyclopedia.model.CreateSubjectResponse
 import com.example.courscyclopedia.model.Major
+import com.example.courscyclopedia.model.NewSubjectRequest
 import com.example.courscyclopedia.model.Subject
 import com.example.courscyclopedia.model.SubjectResponse
 import com.example.courscyclopedia.network.ApiService
@@ -40,6 +42,26 @@ class SubjectsRepository(private val apiService: ApiService) {
 
     suspend fun getAllSubjects(): Response<SubjectResponse> {
         return apiService.getAllSubjects()
+    }
+
+    suspend fun createSubject(newSubjectRequest: NewSubjectRequest): CreateSubjectResponse {
+        val response = apiService.createSubject(newSubjectRequest)
+        if (response.isSuccessful) {
+            // If the response is successful, return the response body which is a CreateSubjectResponse object
+            return response.body() ?: throw Exception("Response body is null")
+        } else {
+            // If the response is not successful, throw an exception with the error message
+            throw Exception("Error creating subject: ${response.errorBody()?.string()}")
+        }
+    }
+
+    suspend fun getMajors(): List<Major> {
+        val response = apiService.getAllMajors()
+        if (response.isSuccessful) {
+            return response.body()?.data ?: emptyList()
+        } else {
+            throw Exception("Error fetching majors: ${response.errorBody()?.string()}")
+        }
     }
 
 }

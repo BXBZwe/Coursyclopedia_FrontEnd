@@ -40,7 +40,18 @@
         android:id="@+id/professorFragment"
         android:name="com.example.courscyclopedia.ui.professors.fragments.ProfessorFragment"
         android:label="professor_fragment">
+        <action
+            android:id="@+id/action_professorFragment_to_subjectDetailFragment"
+            app:destination="@id/SubjectDetailFragment" />
+        <action
+            android:id="@+id/action_professorFragment_to_addSubjectFragment"
+            app:destination="@id/addSubjectFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/addSubjectFragment"
+        android:name="com.example.courscyclopedia.ui.professors.fragments.AddSubjectFragment"
+        android:label="add_subject_fragment" />
 
 </navigation>
 

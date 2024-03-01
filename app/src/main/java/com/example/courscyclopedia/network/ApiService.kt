@@ -1,7 +1,9 @@
 package com.example.courscyclopedia.network
 
+import com.example.courscyclopedia.model.CreateSubjectResponse
 import com.example.courscyclopedia.model.FacultyResponse
 import com.example.courscyclopedia.model.MajorResponse
+import com.example.courscyclopedia.model.NewSubjectRequest
 import com.example.courscyclopedia.model.SubjectDetailResponse
 import com.example.courscyclopedia.model.SubjectResponse
 import com.example.courscyclopedia.model.User
@@ -12,6 +14,9 @@ import retrofit2.http.*
 interface ApiService {
     @GET("api/faculties/getallfaculties")
     suspend fun getAllFaculties(): Response<FacultyResponse>
+
+    @GET("api/majors/getallmajors")
+    suspend fun getAllMajors(): Response<MajorResponse>
 
     @GET("api/faculties/getamjorforfaculty/{id}")
     suspend fun getMajorsForFaculty(@Path("id") facultyId: String): Response<MajorResponse>
@@ -32,6 +37,9 @@ interface ApiService {
 
     @GET("api/subjects/getallsubjects")
     suspend fun getAllSubjects(): Response<SubjectResponse>
+
+    @POST("api/subjects/createsubject")
+    suspend fun createSubject(@Body newSubject: NewSubjectRequest): Response<CreateSubjectResponse>
 }
 
 
