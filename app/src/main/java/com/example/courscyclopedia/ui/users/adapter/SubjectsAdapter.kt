@@ -15,10 +15,12 @@ class SubjectsAdapter(private val onSubjectClick: (Subject) -> Unit) : RecyclerV
 
     class SubjectViewHolder(itemView: View, val onSubjectClick: (Subject) -> Unit) : RecyclerView.ViewHolder(itemView) {
         private val textViewSubjectName: TextView = itemView.findViewById(R.id.textViewSubjectName)
+        private val textviewSubjectCode: TextView = itemView.findViewById(R.id.textviewSubjectCode)
 
         fun bind(subject: Subject) {
             Log.d("SubjectsAdapter", "Binding subject: ${subject.subjectname}")
             textViewSubjectName.text = subject.subjectname
+            textviewSubjectCode.text = subject.subjectCode
             itemView.setOnClickListener {
                 onSubjectClick(subject) // Invoke the click listener, passing the subject
             }

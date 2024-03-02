@@ -13,7 +13,7 @@ import com.example.courscyclopedia.network.RetrofitClient
 import com.example.courscyclopedia.repository.SubjectsRepository
 import com.example.courscyclopedia.ui.professors.viewmodels.ProfessorViewModel
 import com.example.courscyclopedia.ui.professors.viewmodels.ProfessorViewModelFactory
-import com.example.courscyclopedia.ui.users.adapter.SubjectsAdapter
+import com.example.courscyclopedia.ui.users.adapter.ProfessorSubjectsAdapter
 
 class ProfessorFragment : Fragment() {
     private var _binding: FragmentProfessorBinding? = null
@@ -27,16 +27,24 @@ class ProfessorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.rvSubjects.scrollToPosition(0)
 
         val apiService = RetrofitClient.apiService
         val subjectsRepository = SubjectsRepository(apiService)
         val viewModelFactory = ProfessorViewModelFactory(subjectsRepository)
         viewModel = ViewModelProvider(this, viewModelFactory)[ProfessorViewModel::class.java]
 
-        val adapter = SubjectsAdapter {subject ->
-            val action = ProfessorFragmentDirections.actionProfessorFragmentToSubjectDetailFragment(subject.id)
-            findNavController().navigate(action)
-        }
+        val adapter = ProfessorSubjectsAdapter(
+            onSubjectClick = { subject ->
+                val action = ProfessorFragmentDirections.actionProfessorFragmentToSubjectDetailFragment(subject.id)
+                findNavController().navigate(action)
+            },
+            onDeleteClick = { subject ->
+                // Implement your delete functionality here
+                // For example, you might show a confirmation dialog, and if confirmed, call a ViewModel function to delete the subject
+                viewModel.deleteSubject(subject.id)
+            }
+        )
         binding.rvSubjects.layoutManager = LinearLayoutManager(context)
         binding.rvSubjects.adapter = adapter
 
@@ -45,12 +53,9 @@ class ProfessorFragment : Fragment() {
         }
 
         binding.btnAddSubject.setOnClickListener {
-            // Assuming you have set up a navigation action in your nav_graph.xml
-            // from ProfessorFragment to AddSubjectFragment as `action_professorFragment_to_addSubjectFragment`
             val action = ProfessorFragmentDirections.actionProfessorFragmentToAddSubjectFragment()
             findNavController().navigate(action)
         }
-
     }
 
     override fun onDestroyView() {
@@ -58,3 +63,4 @@ class ProfessorFragment : Fragment() {
         _binding = null
     }
 }
+

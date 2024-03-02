@@ -23,7 +23,9 @@
         android:layout_above="@+id/btn_add_subject"
         android:layout_marginBottom="15dp"
         android:padding="16dp"
+        android:paddingTop="0dp"
         tools:listitem="@layout/item_subject" />
+
 
 
 </RelativeLayout>

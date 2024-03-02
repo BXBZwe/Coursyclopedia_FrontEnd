@@ -60,6 +60,8 @@ interface ApiService {
 
     @PUT("api/subjects/updatelikes/{id}")
     suspend fun addLikeByEmail(@Path("id") subjectId: String, @Body request: LikeRequest): Response<LikeRequest>
+    @DELETE("api/subjects/deletesubject/{id}")
+    suspend fun deleteSubjectById(@Path("id") subjectId: String): Response<Unit>
 }
 
 

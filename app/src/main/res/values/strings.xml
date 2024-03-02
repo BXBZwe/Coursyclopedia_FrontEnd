@@ -20,4 +20,11 @@
     <string name="item_fragment_image">Faculty Image</string>
     <string name="fragment_choose_faculty">Discover Faculties</string>
     <string name="fragment_info">Choose one time and your faculty will be permenant.</string>
+
+    <string name="fragment_choose_subject">Subjects Offered</string>
+    <string name="delete_subject">Delete Subject</string>
+    <string name="welcome_user">Welcome, %1$s!</string>
+
+
+
 </resources>
