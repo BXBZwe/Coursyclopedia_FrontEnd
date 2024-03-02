@@ -13,7 +13,24 @@
         android:text="Subject Name"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:textColor="@android:color/black"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    <TextView
+        android:id="@+id/loggedEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logged Email"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/black"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    <ImageView
+        android:id="@+id/wishlistIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_wishlist"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"/>
 
     <!-- Add more views as needed for displaying subject details -->
     <!-- Example: Description -->
@@ -22,6 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Subject Code"
+        android:textColor="@android:color/black"
         android:layout_marginTop="8dp"/>
 
     <TextView
@@ -29,6 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Subject Description"
+        android:textColor="@android:color/black"
         android:layout_marginTop="8dp"/>
 
     <TextView
@@ -36,6 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Campus"
+        android:textColor="@android:color/black"
         android:layout_marginTop="8dp"/>
 
     <TextView
@@ -43,6 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Credits"
+        android:textColor="@android:color/black"
         android:layout_marginTop="8dp"/>
 
     <TextView
@@ -50,6 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Likes"
+        android:textColor="@android:color/black"
         android:layout_marginTop="8dp"/>
 
     <TextView
@@ -57,8 +79,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Available Duration"
+        android:textColor="@android:color/black"
         android:layout_marginTop="8dp"/>
 
-    <!-- Add other TextViews or Views for displaying other details like professors, credits, etc. -->
 
 </LinearLayout>
