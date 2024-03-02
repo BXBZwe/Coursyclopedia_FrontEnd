@@ -3,10 +3,13 @@ package com.example.courscyclopedia.network
 import com.example.courscyclopedia.model.CreateSubjectResponse
 import com.example.courscyclopedia.model.FacultyResponse
 import com.example.courscyclopedia.model.LikeRequest
+import com.example.courscyclopedia.model.LikeResponse
 import com.example.courscyclopedia.model.MajorResponse
 import com.example.courscyclopedia.model.NewSubjectRequest
 import com.example.courscyclopedia.model.SubjectDetailResponse
 import com.example.courscyclopedia.model.SubjectResponse
+import com.example.courscyclopedia.model.SubjectUpdateRequest
+import com.example.courscyclopedia.model.UpdateSubjectResponse
 import com.example.courscyclopedia.model.UserData
 import com.example.courscyclopedia.model.UserDetails
 import com.example.courscyclopedia.model.UserList
@@ -58,10 +61,15 @@ interface ApiService {
     @POST("api/subjects/createsubject")
     suspend fun createSubject(@Body newSubject: NewSubjectRequest): Response<CreateSubjectResponse>
 
-    @PUT("api/subjects/updatelikes/{id}")
-    suspend fun addLikeByEmail(@Path("id") subjectId: String, @Body request: LikeRequest): Response<LikeRequest>
     @DELETE("api/subjects/deletesubject/{id}")
     suspend fun deleteSubjectById(@Path("id") subjectId: String): Response<Unit>
+
+    @PUT("api/subjects/updatelikes/{id}")
+    suspend fun addLikeByEmail(@Path("id") subjectId: String, @Body likeRequest: LikeRequest): Response<LikeResponse>
+
+    @PUT("api/subjects/updatesubject/{id}")
+    suspend fun updateSubject(@Path("id") subjectId: String, @Body updateRequest: SubjectUpdateRequest): Response<UpdateSubjectResponse>
+
 }
 
 

@@ -2,12 +2,16 @@ package com.example.courscyclopedia.repository
 
 import com.example.courscyclopedia.model.CreateSubjectResponse
 import com.example.courscyclopedia.model.LikeRequest
+import com.example.courscyclopedia.model.LikeResponse
 import com.example.courscyclopedia.model.Major
 import com.example.courscyclopedia.model.NewSubjectRequest
 import com.example.courscyclopedia.model.Subject
 import com.example.courscyclopedia.model.SubjectResponse
+import com.example.courscyclopedia.model.SubjectUpdateRequest
 import com.example.courscyclopedia.network.ApiService
+import com.example.courscyclopedia.ui.util.Result
 import retrofit2.Response
+
 
 class SubjectsRepository(private val apiService: ApiService) {
 
@@ -65,13 +69,31 @@ class SubjectsRepository(private val apiService: ApiService) {
         }
     }
 
-    suspend fun addLikeToSubject(subjectId: String, userEmail: String): Response<LikeRequest> {
+    suspend fun addLikeToSubject(subjectId: String, userEmail: String): Response<LikeResponse> {
         return apiService.addLikeByEmail(subjectId, LikeRequest(userEmail))
     }
 
     suspend fun deleteSubject(subjectId: String): Response<Unit> {
         return apiService.deleteSubjectById(subjectId)
     }
+
+
+    suspend fun updateSubject(subjectId: String, updateRequest: SubjectUpdateRequest): Result<String> {
+        return try {
+            val response = apiService.updateSubject(subjectId, updateRequest)
+            if (response.isSuccessful && response.body() != null) {
+                // Assuming the response body only contains a message field.
+                Result.Success(response.body()!!.message)
+            } else {
+                Result.Error(Exception("Failed to update subject: ${response.code()} ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+
+
 
 
 }

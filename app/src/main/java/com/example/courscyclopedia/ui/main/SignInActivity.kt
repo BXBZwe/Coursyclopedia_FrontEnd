@@ -17,15 +17,10 @@ import com.example.courscyclopedia.ui.util.Result
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class SignInActivity : AppCompatActivity() {
     companion object {
@@ -81,7 +76,6 @@ class SignInActivity : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                // Check if user exists in your database
                 val email = auth.currentUser?.email ?: ""
                 checkUserInDatabase(email)
             } else {
@@ -94,32 +88,20 @@ class SignInActivity : AppCompatActivity() {
     private fun checkUserInDatabase(email: String) {
         coroutineScope.launch {
             when (val result = userRepository.fetchUserByEmail(email)) {
-                is Result.Success -> {
-                    // User exists, proceed to main activity or specific fragment based on role
-                    val userRole = result.data.data?.roles?.firstOrNull() ?: "default"
-                    navigateBasedOnRole(userRole)
-                }
-                is Result.Error -> {
-                    // User doesn't exist, create a new user in the database
-                    createUserInDatabase(email)
-                }
+                is Result.Success -> navigateBasedOnRole(result.data.data?.roles?.firstOrNull() ?: "default")
+                is Result.Error -> createUserInDatabase(email)
                 else -> Log.e("SignInActivity", "Unexpected error")
             }
         }
     }
 
     private suspend fun createUserInDatabase(email: String) {
-        val userRole = if (email.startsWith("u") && email.contains("@au.edu")) "student" else "admin"
-        val firebaseUser = FirebaseAuth.getInstance().currentUser
-        val displayName = firebaseUser?.displayName ?: "" // Get the display name from Firebase user
-        val newUser = UserData(
-            email = email,
-            roles = listOf(userRole),
-            profile = UserProfile(firstName = displayName, lastName = "") // Assuming 'firstName' in UserProfile represents display name
-        )
+        val isStudent = email.startsWith("u") && email.contains("@au.edu")
+        val roles = if (isStudent) listOf("student") else listOf("admin")
+        val newUser = UserData(email = email, roles = roles, profile = UserProfile(firstName = "New", lastName = "User"))
 
         when (val result = userRepository.createUser(newUser)) {
-            is Result.Success -> navigateBasedOnRole(userRole)
+            is Result.Success -> navigateBasedOnRole(roles.first())
             is Result.Error -> Log.e("SignInActivity", "Failed to create user: ${result.exception.message}")
             else -> Log.e("SignInActivity", "Unexpected error")
         }
@@ -140,4 +122,3 @@ class SignInActivity : AppCompatActivity() {
         coroutineScope.cancel()
     }
 }
-
