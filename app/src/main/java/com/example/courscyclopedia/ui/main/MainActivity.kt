@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -92,7 +91,6 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity", "About to navigate to professor home page")
         findNavController(R.id.nav_host_fragment).navigate(R.id.professorFragment)
     }
-
 
 
 
