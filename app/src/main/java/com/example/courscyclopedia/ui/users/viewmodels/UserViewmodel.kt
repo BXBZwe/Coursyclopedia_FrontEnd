@@ -60,7 +60,6 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
 
         }
     }
-
     fun fetchUserRole(email: String) {
         viewModelScope.launch {
             when (val userResponse = userRepository.fetchUserByEmail(email)) {
