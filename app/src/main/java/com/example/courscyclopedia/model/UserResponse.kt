@@ -7,13 +7,16 @@ data class UserResponse(
 )
 
 data class UserData(
-    val id: String,
+    val id: String? = null,
     val email: String,
-    val roles: List<String>?, // Assuming roles is a list of strings, change it accordingly if different
-    val wishlists: List<String>?, // Assuming wishlists is a list of strings, change it accordingly if different
-    val phonenumber: String,
+    val roles: List<String>? = null,
+    val wishlists: List<String>? = null,
+    val phonenumber: String? = null,
     val profile: UserProfile,
-    val facultyId: String
+    val facultyId: String? = null
 )
 
-
+data class UserList(
+    val data: List<UserList>,
+    val message: String
+)
