@@ -30,6 +30,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.courscyclopedia.ui.users.fragments.FacultyFragment"
+            android:label="FacultyFragment"
+            tools:ignore="Instantiatable">
+        </activity>
+
+
     </application>
 
 </manifest>

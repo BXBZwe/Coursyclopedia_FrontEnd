@@ -16,6 +16,9 @@ class ProfessorViewModel(private val subjectsRepository: SubjectsRepository) : V
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 
+    private val _deletedSubjectId = MutableLiveData<String?>()
+    val deletedSubjectId: LiveData<String?> = _deletedSubjectId
+
     init {
         fetchAllSubjects()
     }
@@ -33,4 +36,23 @@ class ProfessorViewModel(private val subjectsRepository: SubjectsRepository) : V
             }
         }
     }
+    fun deleteSubject(subjectId: String) {
+        viewModelScope.launch {
+            try {
+                val response = subjectsRepository.deleteSubject(subjectId)
+                if (response.isSuccessful) {
+                    // Subject deletion was successful, remove the subject from the list
+                    val currentSubjects = _subjects.value ?: emptyList() // Use emptyList() if _subjects.value is null
+                    val updatedSubjects = currentSubjects.filterNot { it.id == subjectId }
+                    _subjects.postValue(updatedSubjects) // updatedSubjects is now guaranteed to be non-nullable
+                    _message.postValue("Subject successfully deleted")
+                } else {
+                    _message.postValue("Failed to delete subject: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                _message.postValue(e.message ?: "An error occurred while deleting the subject")
+            }
+        }
+    }
+
 }

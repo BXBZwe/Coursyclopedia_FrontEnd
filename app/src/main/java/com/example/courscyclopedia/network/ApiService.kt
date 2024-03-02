@@ -61,6 +61,9 @@ interface ApiService {
     @POST("api/subjects/createsubject")
     suspend fun createSubject(@Body newSubject: NewSubjectRequest): Response<CreateSubjectResponse>
 
+    @DELETE("api/subjects/deletesubject/{id}")
+    suspend fun deleteSubjectById(@Path("id") subjectId: String): Response<Unit>
+
     @PUT("api/subjects/updatelikes/{id}")
     suspend fun addLikeByEmail(@Path("id") subjectId: String, @Body likeRequest: LikeRequest): Response<LikeResponse>
 

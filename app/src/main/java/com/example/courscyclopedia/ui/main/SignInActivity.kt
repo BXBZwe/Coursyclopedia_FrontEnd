@@ -131,11 +131,13 @@ class SignInActivity : AppCompatActivity() {
 
     private suspend fun createUserInDatabase(email: String, name: String) {
         if (!email.endsWith("@au.edu")) {
+//        if (!email.endsWith("@gmail.com")) {
             Toast.makeText(this, "Please sign in with your academic email", Toast.LENGTH_LONG).show()
             signOutFromGoogle()
             return
         }
         val isStudentEmail = email.matches(Regex("^u\\d{7}@au.edu$"))
+//        val isStudentEmail = email.matches(Regex("^u\\d{7}@gmail.com$"))
         val roles = if (isStudentEmail) listOf("student") else listOf("admin")
 
         val newUser = UserData(
@@ -215,4 +217,3 @@ class SignInActivity : AppCompatActivity() {
         finish()
     }
 }
-

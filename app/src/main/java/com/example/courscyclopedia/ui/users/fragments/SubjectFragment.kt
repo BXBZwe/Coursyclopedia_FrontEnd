@@ -103,6 +103,7 @@ import com.example.courscyclopedia.R
 import com.example.courscyclopedia.databinding.FragmentSubjectsBinding
 import com.example.courscyclopedia.network.RetrofitClient
 import com.example.courscyclopedia.repository.SubjectsRepository
+import com.example.courscyclopedia.ui.users.adapter.ProfessorSubjectsAdapter
 import com.example.courscyclopedia.ui.users.adapter.SubjectsAdapter
 import com.example.courscyclopedia.ui.users.viewmodels.SubjectsViewModel
 import com.example.courscyclopedia.ui.users.viewmodels.SubjectsViewModelFactory

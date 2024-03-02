@@ -73,6 +73,11 @@ class SubjectsRepository(private val apiService: ApiService) {
         return apiService.addLikeByEmail(subjectId, LikeRequest(userEmail))
     }
 
+    suspend fun deleteSubject(subjectId: String): Response<Unit> {
+        return apiService.deleteSubjectById(subjectId)
+    }
+
+
     suspend fun updateSubject(subjectId: String, updateRequest: SubjectUpdateRequest): Result<String> {
         return try {
             val response = apiService.updateSubject(subjectId, updateRequest)
