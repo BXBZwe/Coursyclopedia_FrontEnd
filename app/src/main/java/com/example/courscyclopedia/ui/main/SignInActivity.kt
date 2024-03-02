@@ -77,8 +77,8 @@ class SignInActivity : AppCompatActivity() {
                     // Sign-in is successful
                     val user = auth.currentUser
                     user?.email?.let { email ->
-                        if (email.endsWith("gmail.com")) {
-                            if (email.matches(Regex("^u\\d{7}@gmail.com$"))) {
+                        if (email.endsWith("au.edu")) {
+                            if (email.matches(Regex("^u\\d{7}@au.edu$"))) {
                                 // Identified as a student
                                 Toast.makeText(this, "Welcome student ${user.displayName}", Toast.LENGTH_SHORT).show()
                                 navigateToStudentHomePage()

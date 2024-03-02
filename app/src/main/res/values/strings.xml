@@ -18,6 +18,6 @@
     <string name="add_subject">Add Subject</string>
 
     <string name="item_fragment_image">Faculty Image</string>
-    <string name="fragment_choose_faculty">Choose Your Faculty</string>
+    <string name="fragment_choose_faculty">Discover Faculties</string>
     <string name="fragment_info">Choose one time and your faculty will be permenant.</string>
 </resources>
