@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/fragment_choose_faculty"
+        android:textColor="@android:color/black"
         android:gravity="center_horizontal"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -24,7 +25,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tvChooseFaculty"
-        android:layout_above="@+id/tvFacultyInfo"
         android:padding="16dp"
         tools:listitem="@layout/item_faculty" />
 

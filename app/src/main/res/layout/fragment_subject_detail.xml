@@ -13,7 +13,14 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-
+    <ImageView
+        android:id="@+id/wishlistIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_wishlist"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        tools:ignore="MissingConstraints" />
 
 
                 <TableLayout

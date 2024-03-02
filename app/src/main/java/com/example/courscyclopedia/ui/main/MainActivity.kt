@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -49,10 +50,11 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val sign_out_button = findViewById<Button>(R.id.logout_button)
-        sign_out_button.setOnClickListener {
+        val logoutIcon = findViewById<ImageButton>(R.id.logout_icon)
+        logoutIcon.setOnClickListener {
             signOutAndStartSignInActivity()
         }
+
     }
     private fun signOutAndStartSignInActivity() {
         mAuth.signOut()
