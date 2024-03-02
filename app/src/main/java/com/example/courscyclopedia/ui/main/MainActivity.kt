@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.example.courscyclopedia.R
+import com.example.courscyclopedia.ui.users.fragments.SubjectDetailFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -21,10 +22,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var mAuth: FirebaseAuth
-
+    val fragment = SubjectDetailFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val role = intent.getStringExtra("ROLE")
+        Log.d("MainActivity", "Received role: $role")
         mAuth = FirebaseAuth.getInstance()
 
         Handler(Looper.getMainLooper()).post {

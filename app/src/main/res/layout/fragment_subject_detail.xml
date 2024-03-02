@@ -13,7 +13,8 @@
         android:text="Subject Name"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        tools:ignore="HardcodedText" />
 
     <!-- Add more views as needed for displaying subject details -->
     <!-- Example: Description -->
@@ -22,42 +23,60 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Subject Code"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/subjectDescriptionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Subject Description"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/campusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Campus"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/creditTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Credits"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/likesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Likes"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/availableDurationTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Available Duration"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        tools:ignore="HardcodedText" />
+
+    <ImageView
+        android:id="@+id/likeImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_like_selector"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="Likes"
+        tools:ignore="HardcodedText" />
+
 
     <!-- Add other TextViews or Views for displaying other details like professors, credits, etc. -->
 

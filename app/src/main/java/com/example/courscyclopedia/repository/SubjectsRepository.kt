@@ -4,6 +4,7 @@ import com.example.courscyclopedia.model.CreateSubjectResponse
 import com.example.courscyclopedia.model.Major
 import com.example.courscyclopedia.model.NewSubjectRequest
 import com.example.courscyclopedia.model.Subject
+import com.example.courscyclopedia.model.SubjectDetailResponse
 import com.example.courscyclopedia.model.SubjectResponse
 import com.example.courscyclopedia.network.ApiService
 import retrofit2.Response
@@ -63,6 +64,19 @@ class SubjectsRepository(private val apiService: ApiService) {
             throw Exception("Error fetching majors: ${response.errorBody()?.string()}")
         }
     }
+
+    suspend fun updateLikesForSubject(subjectId: String, newLikesCount: Int): SubjectDetailResponse {
+        val requestBody = mapOf("likes" to newLikesCount)
+        val response = apiService.updateLikes(subjectId, requestBody)
+        if (response.isSuccessful) {
+            // Return the response body directly
+            return response.body() ?: throw Exception("Response body is null")
+        } else {
+            // Throw an exception with the error body
+            throw Exception("Error updating likes: ${response.errorBody()?.string()}")
+        }
+    }
+
 
 }
 

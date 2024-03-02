@@ -18,6 +18,3 @@ class MyApp : Application() {
         subjectRepository = SubjectsRepository(apiService)
     }
 }
-
-
-// Remember to declare it in your AndroidManifest.xml

@@ -40,6 +40,11 @@ interface ApiService {
 
     @POST("api/subjects/createsubject")
     suspend fun createSubject(@Body newSubject: NewSubjectRequest): Response<CreateSubjectResponse>
+
+    @PUT("api/subjects/updatelikes/{id}")
+    suspend fun updateLikes(@Path("id") subjectId: String, @Body requestBody: Map<String, Int>): Response<SubjectDetailResponse>
+
+
 }
 
 
