@@ -13,14 +13,6 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/wishlistIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_wishlist"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"
-        tools:ignore="MissingConstraints" />
 
 
                 <TableLayout
@@ -193,6 +185,27 @@
                 android:maxLines="1"
                 android:textColor="@android:color/white"
                 android:ellipsize="end"/>
+
+            <ImageView
+                android:id="@+id/likeImageView"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_like_selector"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Likes"
+
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:id="@+id/wishlistIcon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_wishlist"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center_horizontal"
+                tools:ignore="MissingConstraints" />
         </TableRow>
     </TableLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

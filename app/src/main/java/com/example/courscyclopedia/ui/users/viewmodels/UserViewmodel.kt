@@ -23,6 +23,9 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 
+    private val _userRole = MutableLiveData<String>()
+    val userRole: LiveData<String> = _userRole
+
     init {
         fetchUsers()
     }
@@ -56,16 +59,24 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
 
         }
     }
-
-    fun fetchUserByEmail(email: String) {
-        viewModelScope.launch {
-            when (val result = userRepository.fetchUserByEmail(email)) {
-                is Result.Success -> _user.postValue(result.data.data)
-                is Result.Error -> _message.postValue(result.exception.message ?: "Error fetching user by email")
-                else -> {}
-            }
-        }
-    }
+//    fun fetchUserRole(email: String) {
+//        viewModelScope.launch {
+//            when (val userResponse = userRepository.fetchUserByEmail(email)) {
+//                is Result.Success -> {
+//                    val user = userResponse.data // Directly provides a User object
+//                    if (user.roles != null) { // Access roles directly
+//                        _userRole.value = user.roles.joinToString()
+//                        Log.d("UserRole", "UserRole: ${_userRole.value}")
+//                    } else {
+//                        Log.e("UserViewModel", "User roles are null")
+//                    }
+//                }
+//                is Result.Error -> {
+//                    Log.e("UserViewModel", "Fetching user role failed", userResponse.exception)
+//                }
+//            }
+//        }
+//    }
     fun updateUserById(userId: String, user: UserData) {
         viewModelScope.launch {
             when (val result = userRepository.updateUserById(userId, user)) {
@@ -78,6 +89,13 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
             }
         }
     }
+
+
+
+
+
+
+
 
     fun checkUserInfoComplete(userId: String) {
         viewModelScope.launch {

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.courscyclopedia.model.Subject
+import com.example.courscyclopedia.model.SubjectDetailResponse
 import com.example.courscyclopedia.repository.SubjectsRepository
 import com.example.courscyclopedia.repository.UserRepository
 import com.example.courscyclopedia.ui.util.Result
@@ -50,7 +51,6 @@ class SubjectDetailViewModel(
             }
         }
     }
-
 
 
 }

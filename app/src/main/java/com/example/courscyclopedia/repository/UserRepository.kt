@@ -31,8 +31,10 @@
         suspend fun fetchUserByEmail(email: String): Result<UserResponse> {
             return try {
                 val response = apiService.getUserbyEmail(email)
+//                Log.d("APIResponse", "Response: ${response.raw().body?.string()}")
                 if (response.isSuccessful && response.body() != null) {
                     Result.Success(response.body()!!)
+
                 } else {
                     Result.Error(Exception("Failed to fetch user by email: ${response.code()} ${response.message()}"))
                 }
@@ -118,7 +120,7 @@
                 if (response.isSuccessful && response.body() != null) {
                     val userData = response.body()?.data
                     userData?.let {
-                        return (it.phonenumber?.isNotBlank() ?: false) &&
+                        return (it.phoneNumber?.isNotBlank() ?: false) &&
                                 (it.profile.firstName?.isNotBlank() ?: false) &&
                                 (it.profile.lastName?.isNotBlank() ?: false) &&
                                 (it.facultyId?.isNotBlank() ?: false)
