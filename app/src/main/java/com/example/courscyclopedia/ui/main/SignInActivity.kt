@@ -99,20 +99,43 @@ class SignInActivity : AppCompatActivity() {
 
 
     private suspend fun checkUserInDatabase(email: String, name: String) {
-        when (val result = userRepository.fetchUserByEmail(email)) {
-            is Result.Success -> navigateToNextActivity() // User exists
+        when (val result = userRepository.fetchUserDetailsByEmail(email)) {
+            is Result.Success -> {
+                // Ensure we're accessing the user roles correctly.
+                val userRole = result.data.roles?.firstOrNull() // Adjust based on actual data structure
+                if (userRole != null) {
+                    navigateBasedOnRole(userRole)
+                } else {
+                    Log.e("SignInActivity", "User role is null or undefined.")
+                    // Handle undefined role, maybe navigate to a default or error page
+                }
+            }
             is Result.Error -> createUserInDatabase(email, name)
             else -> {}
         }
     }
 
+
+    private fun navigateBasedOnRole(role: String) {
+        when (role) {
+            "student" -> navigateToStudentHomePage()
+            "admin" -> navigateToProfessorHomePage() // Make sure this method exists and is named correctly
+            else -> {
+                Log.e("SignInActivity", "Unknown or undefined user role: $role")
+                // Consider adding a default navigation or error handling here
+            }
+        }
+    }
+
+
+
     private suspend fun createUserInDatabase(email: String, name: String) {
-        if (!email.endsWith("@gmail.com")) {
+        if (!email.endsWith("@au.edu")) {
             Toast.makeText(this, "Please sign in with your academic email", Toast.LENGTH_LONG).show()
             signOutFromGoogle()
             return
         }
-        val isStudentEmail = email.matches(Regex("^u\\d{7}@gmail.com$"))
+        val isStudentEmail = email.matches(Regex("^u\\d{7}@au.edu$"))
         val roles = if (isStudentEmail) listOf("student") else listOf("admin")
 
         val newUser = UserData(
