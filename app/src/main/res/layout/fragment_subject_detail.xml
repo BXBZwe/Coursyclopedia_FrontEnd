@@ -13,8 +13,6 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-
-
                 <TableLayout
 
                     android:layout_width="match_parent"
@@ -47,6 +45,18 @@
                 android:maxLines="1"
                 android:textColor="@android:color/white"
                 android:ellipsize="end"/>
+            <EditText
+                android:id="@+id/editTextSubjectName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Cloud Computing"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                android:background="@android:color/transparent"
+                android:ellipsize="end"/>
         </TableRow>
 
         <!-- Subject Code -->
@@ -70,6 +80,18 @@
                 android:textColor="@android:color/white"
                 android:maxLines="1"
                 android:ellipsize="end"/>
+            <EditText
+                android:id="@+id/editTextSubjectcode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Code"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                android:background="@android:color/transparent"
+                android:ellipsize="end"/>
         </TableRow>
 
         <!-- Description -->
@@ -91,7 +113,18 @@
                 android:textColor="@android:color/white"
                 android:layout_weight="2"
                 android:text="Introduction to cloud computing concepts and practices"
-
+                android:ellipsize="end"/>
+            <EditText
+                android:id="@+id/editsubjectDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Introduction to cloud computing concepts and practices"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                android:background="@android:color/transparent"
                 android:ellipsize="end"/>
         </TableRow>
 
@@ -116,6 +149,19 @@
                 android:textColor="@android:color/white"
                 android:maxLines="1"
                 android:ellipsize="end"/>
+
+            <EditText
+                android:id="@+id/editcampus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Main Campus"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                android:background="@android:color/transparent"
+                android:ellipsize="end"/>
         </TableRow>
 
         <!-- Credits -->
@@ -138,6 +184,18 @@
                 android:text="4"
                 android:textColor="@android:color/white"
                 android:maxLines="1"
+                android:ellipsize="end"/>
+            <EditText
+                android:id="@+id/editTextCredit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Credits"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                android:background="@android:color/transparent"
                 android:ellipsize="end"/>
         </TableRow>
 
@@ -187,7 +245,7 @@
                 android:ellipsize="end"/>
 
             <ImageView
-                android:id="@+id/likeImageView"
+                android:id="@+id/likeicon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/ic_like_selector"
@@ -208,6 +266,13 @@
                 tools:ignore="MissingConstraints" />
         </TableRow>
     </TableLayout>
+        <Button
+            android:id="@+id/buttonEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

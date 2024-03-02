@@ -1,7 +1,7 @@
     package com.example.courscyclopedia.repository
 
-    import com.example.courscyclopedia.model.FacultyResponse
-    import com.example.courscyclopedia.model.UserData // Ensure this is the correct import
+    import android.util.Log
+    import com.example.courscyclopedia.model.UserData
     import com.example.courscyclopedia.model.UserDetails
     import com.example.courscyclopedia.model.UserList
     import com.example.courscyclopedia.model.UserResponse
@@ -132,5 +132,20 @@
                 false
             }
         }
+
+        suspend fun checkIfUserLikedSubject(subjectId: String, userEmail: String): Boolean {
+            return try {
+                // Placeholder for the actual API call, replace with your actual implementation
+                // val response = apiService.checkUserLikedSubject(subjectId, userEmail)
+                // Assume the API returns a boolean directly or a response object from which you can get the boolean
+                val hasLiked = false // This should be replaced with the actual result from your API call
+
+                hasLiked
+            } catch (e: Exception) {
+                Log.e("UserRepository", "Error checking if user liked subject: ${e.message}")
+                false // Assume the user hasn't liked the subject in case of an error
+            }
+        }
+
 
     }
