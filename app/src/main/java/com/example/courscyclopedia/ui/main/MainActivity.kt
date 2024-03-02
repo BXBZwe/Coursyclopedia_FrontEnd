@@ -7,10 +7,13 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.example.courscyclopedia.R
+import com.example.courscyclopedia.ui.users.fragments.SubjectDetailFragment
+import com.example.courscyclopedia.ui.util.SharedPreferencesUtils
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -22,12 +25,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var mAuth: FirebaseAuth
-
+    val fragment = SubjectDetailFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val role = intent.getStringExtra("ROLE")
+        Log.d("MainActivity", "Received role: $role")
         mAuth = FirebaseAuth.getInstance()
-
+//
         Handler(Looper.getMainLooper()).post {
             handleIntent()
         }
@@ -49,13 +54,16 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val sign_out_button = findViewById<Button>(R.id.logout_button)
-        sign_out_button.setOnClickListener {
+        val logoutIcon = findViewById<ImageButton>(R.id.logout_icon)
+        logoutIcon.setOnClickListener {
             signOutAndStartSignInActivity()
         }
+
     }
     private fun signOutAndStartSignInActivity() {
         mAuth.signOut()
+
+        SharedPreferencesUtils.clearUserEmail(this)
 
         mGoogleSignInClient.signOut().addOnCompleteListener(this) {
             // Optional: Update UI or show a message to the user
@@ -84,4 +92,8 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity", "About to navigate to professor home page")
         findNavController(R.id.nav_host_fragment).navigate(R.id.professorFragment)
     }
+
+
+
+
 }

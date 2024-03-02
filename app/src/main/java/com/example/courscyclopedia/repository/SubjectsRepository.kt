@@ -1,6 +1,7 @@
 package com.example.courscyclopedia.repository
 
 import com.example.courscyclopedia.model.CreateSubjectResponse
+import com.example.courscyclopedia.model.LikeRequest
 import com.example.courscyclopedia.model.Major
 import com.example.courscyclopedia.model.NewSubjectRequest
 import com.example.courscyclopedia.model.Subject
@@ -62,6 +63,10 @@ class SubjectsRepository(private val apiService: ApiService) {
         } else {
             throw Exception("Error fetching majors: ${response.errorBody()?.string()}")
         }
+    }
+
+    suspend fun addLikeToSubject(subjectId: String, userEmail: String): Response<LikeRequest> {
+        return apiService.addLikeByEmail(subjectId, LikeRequest(userEmail))
     }
 
 }

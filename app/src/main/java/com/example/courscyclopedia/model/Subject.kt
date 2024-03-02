@@ -12,6 +12,7 @@ data class Subject(
     @SerializedName("PreRequisite") val preRequisite: List<String>,
     @SerializedName("CoRequisite") val coRequisite: List<String>,
     @SerializedName("Likes") val likes: Int,
+    @SerializedName("Likelist") val likelist: List<String>,
     @SerializedName("SubjectStatus") val subjectStatus: String,
     @SerializedName("LastUpdated") val lastUpdated: String,
     @SerializedName("AvailableDuration") val availableDuration: Int

@@ -2,11 +2,13 @@ package com.example.courscyclopedia.network
 
 import com.example.courscyclopedia.model.CreateSubjectResponse
 import com.example.courscyclopedia.model.FacultyResponse
+import com.example.courscyclopedia.model.LikeRequest
 import com.example.courscyclopedia.model.MajorResponse
 import com.example.courscyclopedia.model.NewSubjectRequest
 import com.example.courscyclopedia.model.SubjectDetailResponse
 import com.example.courscyclopedia.model.SubjectResponse
 import com.example.courscyclopedia.model.UserData
+import com.example.courscyclopedia.model.UserDetails
 import com.example.courscyclopedia.model.UserList
 import com.example.courscyclopedia.model.UserResponse
 import retrofit2.Response
@@ -35,14 +37,29 @@ interface ApiService {
     @GET("api/users/getoneuser/{id}")
     suspend fun getUserById(@Path("id") userId: String): Response<UserResponse>
 
+    @PUT("api/users/updateoneuser/{id}")
+    suspend fun updateUserById(@Path("id") userId: String, @Body user: UserData): Response<UserResponse>
+
+    @PUT("api/users/updateoneuser/{id}")
+    suspend fun updateUserById2(@Path("id") userId: String, @Body user: UserDetails): Response<UserResponse>
+
+
+
     @GET("api/users/getuserbyemail/{email}")
     suspend fun getUserbyEmail(@Path("email") email: String): Response<UserResponse>
+
+    @GET("api/users/getuserbyemail/{email}")
+    suspend fun getUserByEmail2(@Path("email") email: String): Response<UserDetails>
+
 
     @GET("api/subjects/getallsubjects")
     suspend fun getAllSubjects(): Response<SubjectResponse>
 
     @POST("api/subjects/createsubject")
     suspend fun createSubject(@Body newSubject: NewSubjectRequest): Response<CreateSubjectResponse>
+
+    @PUT("api/subjects/updatelikes/{id}")
+    suspend fun addLikeByEmail(@Path("id") subjectId: String, @Body request: LikeRequest): Response<LikeRequest>
 }
 
 
