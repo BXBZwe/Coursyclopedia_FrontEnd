@@ -21,4 +21,7 @@
     <string name="fragment_choose_faculty">Discover Faculties</string>
     <string name="fragment_info">Choose one time and your faculty will be permenant.</string>
 
+    <string name="like">Like</string>
+    <string name="wishlist">Wishlist</string>
+
 </resources>
