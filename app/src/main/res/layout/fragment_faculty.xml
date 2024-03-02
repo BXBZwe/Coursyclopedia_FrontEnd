@@ -29,15 +29,15 @@
         tools:listitem="@layout/item_faculty" />
 
     <!-- Info TextView at the bottom -->
-    <TextView
-        android:id="@+id/tvFacultyInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/fragment_info"
-        android:gravity="center_horizontal"
-        android:textSize="14sp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:layout_alignParentBottom="true" />
+<!--    <TextView-->
+<!--        android:id="@+id/tvFacultyInfo"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/fragment_info"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:textSize="14sp"-->
+<!--        android:paddingTop="16dp"-->
+<!--        android:paddingBottom="16dp"-->
+<!--        android:layout_alignParentBottom="true" />-->
 
 </RelativeLayout>
