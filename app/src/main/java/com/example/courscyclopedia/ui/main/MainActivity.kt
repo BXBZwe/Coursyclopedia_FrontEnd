@@ -1,84 +1,97 @@
 package com.example.courscyclopedia.ui.main
 
+
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.example.courscyclopedia.R
+import com.example.courscyclopedia.ui.users.fragments.SubjectDetailFragment
 import com.example.courscyclopedia.ui.util.SharedPreferencesUtils
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var auth: FirebaseAuth
-
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private lateinit var mAuth: FirebaseAuth
+    val fragment = SubjectDetailFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        auth = FirebaseAuth.getInstance()
-        configureGoogleSignIn()
-        checkUserAuthentication()
-        displayUserName()
-        setupLogoutButton()
-    }
-
-    private fun configureGoogleSignIn() {
+        val role = intent.getStringExtra("ROLE")
+        Log.d("MainActivity", "Received role: $role")
+        mAuth = FirebaseAuth.getInstance()
+//
+        Handler(Looper.getMainLooper()).post {
+            handleIntent()
+        }
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
-    }
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-    private fun displayUserName() {
         val textView = findViewById<TextView>(R.id.name)
-        auth.currentUser?.displayName?.let { userName ->
-            textView.text = getString(R.string.welcome_user, userName)
-        }
-    }
 
-    private fun setupLogoutButton() {
-        findViewById<ImageButton>(R.id.logout_icon).setOnClickListener {
+        val auth = Firebase.auth
+        val user = auth.currentUser
+
+        if (user != null) {
+            val userName = user.displayName
+            textView.text = "Welcome, " + userName
+        } else {
+        }
+
+
+        val logoutIcon = findViewById<ImageButton>(R.id.logout_icon)
+        logoutIcon.setOnClickListener {
             signOutAndStartSignInActivity()
         }
-    }
 
-    private fun checkUserAuthentication() {
-        auth.currentUser?.let { user ->
-            navigateBasedOnUserRole(user.email ?: "")
-        } ?: run {
-            navigateToSignIn()
-        }
     }
-
-    private fun navigateBasedOnUserRole(email: String) {
-        val navController = findNavController(R.id.nav_host_fragment)
-        if (email.startsWith("u") && email.contains("@au.edu")) {
-            // Navigate to FacultyFragment
-            navController.navigate(R.id.facultyFragment)
-        } else {
-            // Navigate to ProfessorFragment
-            navController.navigate(R.id.professorFragment)
-        }
-    }
-
     private fun signOutAndStartSignInActivity() {
-        auth.signOut()
+        mAuth.signOut()
+
         SharedPreferencesUtils.clearUserEmail(this)
-        googleSignInClient.signOut().addOnCompleteListener {
-            navigateToSignIn()
+
+        mGoogleSignInClient.signOut().addOnCompleteListener(this) {
+            // Optional: Update UI or show a message to the user
+            val intent = Intent(this@MainActivity, SignInActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 
-    private fun navigateToSignIn() {
-        startActivity(Intent(this, SignInActivity::class.java))
-        finish()
+    private fun handleIntent() {
+        when (intent.getStringExtra("ROLE")) {
+            "STUDENT" -> navigateToStudentHomePage()
+            "PROFESSOR" -> navigateToProfessorHomePage()
+        }
+        // Clear the ROLE from the intent after handling it
+        intent.removeExtra("ROLE")
     }
+
+
+    private fun navigateToStudentHomePage() {
+        Log.d("MainActivity", "About to navigate to student home page")
+        findNavController(R.id.nav_host_fragment).navigate(R.id.facultyFragment)
+    }
+
+    private fun navigateToProfessorHomePage() {
+        Log.d("MainActivity", "About to navigate to professor home page")
+        findNavController(R.id.nav_host_fragment).navigate(R.id.professorFragment)
+    }
+
+
+
 }

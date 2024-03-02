@@ -1,11 +1,13 @@
 package com.example.courscyclopedia.ui.users.viewmodels
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.courscyclopedia.model.Subject
 import com.example.courscyclopedia.model.SubjectUpdateRequest
+import com.example.courscyclopedia.model.UserDetails
 import com.example.courscyclopedia.repository.SubjectsRepository
 import com.example.courscyclopedia.repository.UserRepository
 import com.example.courscyclopedia.ui.util.Result
@@ -77,6 +79,16 @@ class SubjectDetailViewModel(
             updateStatus.postValue(result)
         }
     }
+
+    fun fetchUserDetailsByEmail(email: String): LiveData<Result<UserDetails>> {
+        val liveData = MutableLiveData<Result<UserDetails>>()
+        viewModelScope.launch {
+            val result = userRepository.fetchUserDetailsByEmail(email)
+            liveData.postValue(result)
+        }
+        return liveData
+    }
+
 
 
 }

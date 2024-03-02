@@ -11,17 +11,18 @@ import com.example.courscyclopedia.model.UserData
 import com.example.courscyclopedia.model.UserProfile
 import com.example.courscyclopedia.network.RetrofitClient
 import com.example.courscyclopedia.repository.UserRepository
-import com.example.courscyclopedia.ui.professors.fragments.ProfessorFragment
-import com.example.courscyclopedia.ui.users.fragments.FacultyFragment
 import com.example.courscyclopedia.ui.util.Result
+import com.example.courscyclopedia.ui.util.SharedPreferencesUtils
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.coroutines.*
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 class SignInActivity : AppCompatActivity() {
     companion object {
         private const val RC_SIGN_IN = 9001
@@ -37,16 +38,17 @@ class SignInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_in)
 
         auth = FirebaseAuth.getInstance()
-        setupGoogleSignIn()
-        findViewById<Button>(R.id.signInButton).setOnClickListener { signIn() }
-    }
 
-    private fun setupGoogleSignIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
+
         googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        findViewById<Button>(R.id.signInButton).setOnClickListener { signIn() }
+
+        checkCurrentUser()
     }
 
     private fun signIn() {
@@ -54,30 +56,40 @@ class SignInActivity : AppCompatActivity() {
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
+    private fun checkCurrentUser() {
+        val currentUser = auth.currentUser
+        currentUser?.let {
+            navigateToNextActivity()
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleSignInResult(task)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                Log.e("SignInActivity", "Google sign in failed", e)
+                Toast.makeText(this, "Google sign in failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
         }
     }
-
-    private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
-        try {
-            val account = task.getResult(ApiException::class.java)
-            firebaseAuthWithGoogle(account.idToken!!)
-        } catch (e: ApiException) {
-            Log.e("SignInActivity", "Google sign in failed", e)
-            Toast.makeText(this, "Google sign in failed: ${e.message}", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                val email = auth.currentUser?.email ?: ""
-                checkUserInDatabase(email)
+                val firebaseUser = auth.currentUser
+                firebaseUser?.let { user ->
+                    SharedPreferencesUtils.saveUserEmail(this, user.email ?: "")
+                    val savedEmail = SharedPreferencesUtils.getUserEmail(this)
+                    Log.d("SignInActivity", "Saved email: $savedEmail")
+                        coroutineScope.launch {
+                            checkUserInDatabase(user.email ?: "", user.displayName ?: "")
+                        }
+                }
             } else {
                 Log.e("SignInActivity", "Authentication failed: ${task.exception?.message}")
                 Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()
@@ -85,40 +97,123 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkUserInDatabase(email: String) {
-        coroutineScope.launch {
-            when (val result = userRepository.fetchUserByEmail(email)) {
-                is Result.Success -> navigateBasedOnRole(result.data.data?.roles?.firstOrNull() ?: "default")
-                is Result.Error -> createUserInDatabase(email)
-                else -> Log.e("SignInActivity", "Unexpected error")
+
+    private suspend fun checkUserInDatabase(email: String, name: String) {
+        when (val result = userRepository.fetchUserDetailsByEmail(email)) {
+            is Result.Success -> {
+                // Ensure we're accessing the user roles correctly.
+                val userRole = result.data.roles?.firstOrNull() // Adjust based on actual data structure
+                if (userRole != null) {
+                    navigateBasedOnRole(userRole)
+                } else {
+                    Log.e("SignInActivity", "User role is null or undefined.")
+                    // Handle undefined role, maybe navigate to a default or error page
+                }
+            }
+            is Result.Error -> createUserInDatabase(email, name)
+            else -> {}
+        }
+    }
+
+
+    private fun navigateBasedOnRole(role: String) {
+        when (role) {
+            "student" -> navigateToStudentHomePage()
+            "admin" -> navigateToProfessorHomePage() // Make sure this method exists and is named correctly
+            else -> {
+                Log.e("SignInActivity", "Unknown or undefined user role: $role")
+                // Consider adding a default navigation or error handling here
             }
         }
     }
 
-    private suspend fun createUserInDatabase(email: String) {
-        val isStudent = email.startsWith("u") && email.contains("@au.edu")
-        val roles = if (isStudent) listOf("student") else listOf("admin")
-        val newUser = UserData(email = email, roles = roles, profile = UserProfile(firstName = "New", lastName = "User"))
+
+
+    private suspend fun createUserInDatabase(email: String, name: String) {
+        if (!email.endsWith("@au.edu")) {
+//        if (!email.endsWith("@gmail.com")) {
+            Toast.makeText(this, "Please sign in with your academic email", Toast.LENGTH_LONG).show()
+            signOutFromGoogle()
+            return
+        }
+        val isStudentEmail = email.matches(Regex("^u\\d{7}@au.edu$"))
+//        val isStudentEmail = email.matches(Regex("^u\\d{7}@gmail.com$"))
+        val roles = if (isStudentEmail) listOf("student") else listOf("admin")
+
+        val newUser = UserData(
+            email = email,
+            profile = UserProfile(firstName = name.split(" ")[0], lastName = name.split(" ").getOrNull(1) ?: ""),
+            roles = roles
+        )
+        Log.d("SignInActivity", "UserData: $newUser")
 
         when (val result = userRepository.createUser(newUser)) {
-            is Result.Success -> navigateBasedOnRole(roles.first())
+            is Result.Success -> {
+                if (isStudentEmail) {
+                    navigateToStudentHomePage()
+                } else {
+                    navigateToProfessorHomePage()
+                }
+            }
             is Result.Error -> Log.e("SignInActivity", "Failed to create user: ${result.exception.message}")
-            else -> Log.e("SignInActivity", "Unexpected error")
+            else -> {}
         }
     }
 
-    private fun navigateBasedOnRole(role: String) {
-        val intent = when (role) {
-            "student" -> Intent(this, FacultyFragment::class.java)
-            "admin" -> Intent(this, ProfessorFragment::class.java)
-            else -> Intent(this, MainActivity::class.java) // Default or unknown role
+    private fun signOutFromGoogle() {
+        // Configure Google Sign In
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        // Build a GoogleSignInClient with the options specified by gso
+        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        // Sign out from Google
+        googleSignInClient.signOut().addOnCompleteListener(this) {
+            googleSignInClient.revokeAccess().addOnCompleteListener(this) {
+                googleSignInClient.signOut()  // Clear the default account
+            }
+        }
+    }
+
+
+    private fun navigateToNextActivity() {
+        // Navigation logic based on the user role or other criteria
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+//    private fun signOut() {
+//        auth.signOut()
+//        googleSignInClient.signOut().addOnCompleteListener {
+//            // Optional: Update UI
+//            val signInIntent = Intent(this, SignInActivity::class.java)
+//            startActivity(signInIntent)
+//            finish()
+//        }
+//    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        coroutineScope.cancel()
+    }
+
+    private fun navigateToStudentHomePage() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra("ROLE", "STUDENT")
         }
         startActivity(intent)
         finish()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        coroutineScope.cancel()
+    private fun navigateToProfessorHomePage() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra("ROLE", "PROFESSOR")
+        }
+        startActivity(intent)
+        finish()
     }
 }

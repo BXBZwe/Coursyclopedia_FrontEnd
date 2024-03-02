@@ -16,6 +16,7 @@ import com.example.courscyclopedia.repository.SubjectsRepository
 import com.example.courscyclopedia.repository.UserRepository
 import com.example.courscyclopedia.ui.users.viewmodels.SubjectDetailViewModel
 import com.example.courscyclopedia.ui.users.viewmodels.SubjectDetailViewModelFactory
+import com.example.courscyclopedia.ui.util.Result
 import com.google.firebase.auth.FirebaseAuth
 
 class SubjectDetailFragment : Fragment() {
@@ -43,6 +44,7 @@ class SubjectDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setClickListeners()
+        fetchUserRoleAndAdjustUI()
 
         viewModel.fetchSubjectDetails(args.subjectId)
 
@@ -68,6 +70,40 @@ class SubjectDetailFragment : Fragment() {
 
     }
 
+    private fun fetchUserRoleAndAdjustUI() {
+        // Assuming FirebaseAuth.getInstance().currentUser?.email gives you the current user's email
+        val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: return
+        viewModel.fetchUserDetailsByEmail(userEmail).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Success -> {
+                    adjustIconsBasedOnUserRole(result.data.roles)
+                }
+                is Result.Error -> {
+                    Toast.makeText(context, "Failed to fetch user details", Toast.LENGTH_SHORT).show()
+                }
+
+                else -> {}
+            }
+        }
+    }
+
+    private fun adjustIconsBasedOnUserRole(role: List<String>) {
+        when (role) {
+            listOf("student") -> {
+                binding.likeicon.visibility = View.VISIBLE
+                binding.wishlistIcon.visibility = View.VISIBLE
+                binding.buttonEdit.visibility = View.GONE
+            }
+            listOf("admin") -> {
+                binding.likeicon.visibility = View.GONE
+                binding.wishlistIcon.visibility = View.GONE
+                binding.buttonEdit.visibility = View.VISIBLE
+            }
+            else -> {
+                // Handle other roles or default case if necessary
+            }
+        }
+    }
     private fun setClickListeners() {
         binding.buttonEdit.setOnClickListener {
             toggleEditMode()
@@ -142,7 +178,7 @@ class SubjectDetailFragment : Fragment() {
                 subjectCode = binding.editTextSubjectcode.text.toString().takeIf { it.isNotBlank() } ?: subj.subjectCode,
                 subjectDescription = binding.editsubjectDescription.text.toString().takeIf { it.isNotBlank() } ?: subj.subjectDescription,
                 campus = binding.editcampus.text.toString().takeIf { it.isNotBlank() } ?: subj.campus,
-//                credit = binding.editTextCredit.text.toString().toIntOrNull() ?: subj.credit
+                credit = binding.editTextCredit.text.toString().toIntOrNull() ?: subj.credit
             )
             viewModel.updateSubject(args.subjectId, updateRequest)
         }
