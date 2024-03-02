@@ -54,10 +54,10 @@ class SubjectDetailFragment : Fragment() {
         binding.wishlistIcon.setOnClickListener {
             addToWishlist()
         }
-// Retrieve logged-in email from Firebase Authentication and set it to the binding variable
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        val userEmail = currentUser?.email ?: "No Email"
-        binding.loggedEmail.text = userEmail
+//// Retrieve logged-in email from Firebase Authentication and set it to the binding variable
+//        val currentUser = FirebaseAuth.getInstance().currentUser
+//        val userEmail = currentUser?.email ?: "No Email"
+//        binding.loggedEmail.text = userEmail
 
     }
 

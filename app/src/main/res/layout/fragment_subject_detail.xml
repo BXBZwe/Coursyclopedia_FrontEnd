@@ -1,86 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ui.users.fragments.SubjectDetailFragment">
 
-    <TextView
-        android:id="@+id/subjectNameTextView"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Subject Name"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@android:color/black"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-    <TextView
-        android:id="@+id/loggedEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logged Email"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@android:color/black"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:padding="16dp">
+
     <ImageView
         android:id="@+id/wishlistIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_wishlist"
         android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"/>
-
-    <!-- Add more views as needed for displaying subject details -->
-    <!-- Example: Description -->
-    <TextView
-        android:id="@+id/subjectCodeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Subject Code"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="8dp"/>
-
-    <TextView
-        android:id="@+id/subjectDescriptionTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Subject Description"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="8dp"/>
-
-    <TextView
-        android:id="@+id/campusTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Campus"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="8dp"/>
-
-    <TextView
-        android:id="@+id/creditTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Credits"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="8dp"/>
-
-    <TextView
-        android:id="@+id/likesTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Likes"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="8dp"/>
-
-    <TextView
-        android:id="@+id/availableDurationTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Available Duration"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="8dp"/>
+        android:layout_gravity="center_horizontal"
+        tools:ignore="MissingConstraints" />
 
 
-</LinearLayout>
+                <TableLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="@drawable/rounded_background">
+
+        <!-- Subject Name -->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Subject"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            <TextView
+                android:id="@+id/subjectNameTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Cloud Computing"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:ellipsize="end"/>
+        </TableRow>
+
+        <!-- Subject Code -->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Code"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            <TextView
+                android:id="@+id/subjectCodeTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="CSX3009"
+                android:textColor="@android:color/white"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+        </TableRow>
+
+        <!-- Description -->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Description"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            <TextView
+                android:id="@+id/subjectDescriptionTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:layout_weight="2"
+                android:text="Introduction to cloud computing concepts and practices"
+
+                android:ellipsize="end"/>
+        </TableRow>
+
+        <!-- Campus -->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Campus"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            <TextView
+                android:id="@+id/campusTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Main Campus"
+                android:textColor="@android:color/white"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+        </TableRow>
+
+        <!-- Credits -->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Credits"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            <TextView
+                android:id="@+id/creditTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="4"
+                android:textColor="@android:color/white"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+        </TableRow>
+
+        <!-- Likes -->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Likes"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            <TextView
+                android:id="@+id/likesTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="200"
+                android:textColor="@android:color/white"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+        </TableRow>
+
+        <!-- Available Duration -->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Available Duration"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            <TextView
+                android:id="@+id/availableDurationTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Fall Semester"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:ellipsize="end"/>
+        </TableRow>
+    </TableLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
