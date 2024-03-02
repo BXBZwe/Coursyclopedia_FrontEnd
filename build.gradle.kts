@@ -3,6 +3,7 @@ buildscript {
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.7") // Use the latest version available
         classpath("com.google.gms:google-services:4.4.1") // Check for the latest version
 
+
     }
 }
 

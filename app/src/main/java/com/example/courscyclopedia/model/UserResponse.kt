@@ -2,7 +2,7 @@ package com.example.courscyclopedia.model
 
 data class UserResponse(
     val success: Boolean,
-    val data: UserData,
+    val data: UserData?,
     val message: String
 )
 

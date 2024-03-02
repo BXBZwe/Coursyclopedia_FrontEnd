@@ -4,23 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.professors.fragments.ProfessorFragment">
+
     <Button
         android:id="@+id/btn_add_subject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="528dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/add_subject" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_subjects"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
         android:layout_above="@+id/btn_add_subject"
+        android:layout_marginBottom="15dp"
+        android:padding="16dp"
         tools:listitem="@layout/item_subject" />
-
 
 
 </RelativeLayout>
