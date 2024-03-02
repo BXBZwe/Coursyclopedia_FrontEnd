@@ -6,7 +6,8 @@ import com.example.courscyclopedia.model.MajorResponse
 import com.example.courscyclopedia.model.NewSubjectRequest
 import com.example.courscyclopedia.model.SubjectDetailResponse
 import com.example.courscyclopedia.model.SubjectResponse
-import com.example.courscyclopedia.model.User
+import com.example.courscyclopedia.model.UserData
+import com.example.courscyclopedia.model.UserList
 import com.example.courscyclopedia.model.UserResponse
 import retrofit2.Response
 import retrofit2.http.*
@@ -26,9 +27,11 @@ interface ApiService {
 
     @GET("api/subjects/geteachsubject/{id}")
     suspend fun getSubjectById(@Path("id") subjectId: String): Response<SubjectDetailResponse>
-
+    // User Functions
+    @GET("api/users/getallusers")
+    suspend fun getAllUsers(): Response<UserList>
     @POST("api/users/createoneuser")
-    suspend fun createUser(@Body user: User): Response<UserResponse>
+    suspend fun createUser(@Body user: UserData): Response<UserResponse>
     @GET("api/users/getoneuser/{id}")
     suspend fun getUserById(@Path("id") userId: String): Response<UserResponse>
 
