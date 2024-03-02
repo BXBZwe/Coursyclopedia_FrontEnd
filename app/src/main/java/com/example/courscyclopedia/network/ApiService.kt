@@ -2,6 +2,7 @@ package com.example.courscyclopedia.network
 
 import com.example.courscyclopedia.model.CreateSubjectResponse
 import com.example.courscyclopedia.model.FacultyResponse
+import com.example.courscyclopedia.model.LikeRequest
 import com.example.courscyclopedia.model.MajorResponse
 import com.example.courscyclopedia.model.NewSubjectRequest
 import com.example.courscyclopedia.model.SubjectDetailResponse
@@ -45,9 +46,7 @@ interface ApiService {
     suspend fun createSubject(@Body newSubject: NewSubjectRequest): Response<CreateSubjectResponse>
 
     @PUT("api/subjects/updatelikes/{id}")
-    suspend fun updateLikes(@Path("id") subjectId: String, @Body requestBody: Map<String, Int>): Response<SubjectDetailResponse>
-
-
+    suspend fun addLikeByEmail(@Path("id") subjectId: String, @Body request: LikeRequest): Response<LikeRequest>
 }
 
 

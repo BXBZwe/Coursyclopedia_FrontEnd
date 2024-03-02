@@ -113,7 +113,6 @@
 package com.example.courscyclopedia.ui.users.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -124,14 +123,19 @@ import androidx.navigation.fragment.navArgs
 import com.example.courscyclopedia.databinding.FragmentSubjectDetailBinding
 import com.example.courscyclopedia.network.RetrofitClient
 import com.example.courscyclopedia.repository.SubjectsRepository
+import com.example.courscyclopedia.repository.UserRepository
 import com.example.courscyclopedia.ui.users.viewmodels.SubjectDetailViewModel
 import com.example.courscyclopedia.ui.users.viewmodels.SubjectDetailViewModelFactory
+import com.example.courscyclopedia.ui.users.viewmodels.UserViewModel
+import com.example.courscyclopedia.ui.users.viewmodels.UserViewModelFactory
+import com.example.courscyclopedia.ui.util.SharedPreferencesUtils.getUserEmail
 
 class SubjectDetailFragment : Fragment() {
     private var _binding: FragmentSubjectDetailBinding? = null
     private val binding get() = _binding!!
     private val args: SubjectDetailFragmentArgs by navArgs()
     private lateinit var viewModel: SubjectDetailViewModel
+    private lateinit var  userViewModel: UserViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSubjectDetailBinding.inflate(inflater, container, false)
@@ -141,24 +145,39 @@ class SubjectDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeViewModel()
-        checkUserRoleAndSetupUI()
+        fetchAndCheckUserRole()
         observeSubjectDetails()
     }
 
     private fun initializeViewModel() {
         val factory = SubjectDetailViewModelFactory(SubjectsRepository(RetrofitClient.apiService))
         viewModel = ViewModelProvider(this, factory)[SubjectDetailViewModel::class.java]
+
+        val userfactory = UserViewModelFactory(UserRepository(RetrofitClient.apiService))
+
+        userViewModel = ViewModelProvider(this, userfactory)[UserViewModel::class.java]
+        // Assuming it's scoped to the activity
+
     }
 
-    private fun checkUserRoleAndSetupUI() {
-        val role = arguments?.getString("ROLE")
-        Log.d("SubjectDetailFragment", "User role: $role")
-        if (role != "STUDENT") {
-            binding.likeImageView.visibility = View.GONE
+    private fun fetchAndCheckUserRole() {
+        val userEmail = getUserEmail(requireContext()) // Use the utility function to get the user's email
+        if (userEmail != null) {
+            userViewModel.fetchUserRole(userEmail)
         } else {
-            setupLikeButtonClickListener()
+            // Handle case where email is null, perhaps by navigating to login
+        }
+
+        userViewModel.userRole.observe(viewLifecycleOwner) { role ->
+            if (role != "student") {
+                binding.likeImageView.visibility = View.GONE
+            } else {
+                binding.likeImageView.visibility = View.VISIBLE
+                setupLikeButtonClickListener()
+            }
         }
     }
+
 
     private fun observeSubjectDetails() {
         viewModel.fetchSubjectDetails(args.subjectId)
@@ -178,20 +197,30 @@ class SubjectDetailFragment : Fragment() {
     }
 
     private fun setupLikeButtonClickListener() {
+        // Retrieve the user's email, possibly from SharedPreferences, a passed argument, or any other method you've implemented
+        val userEmail = getUserEmail(requireContext()) ?: return // If null, email is not set, handle accordingly
+
         binding.likeImageView.setOnClickListener {
-            viewModel.updateLikes(args.subjectId)
+            viewModel.addLike(args.subjectId, userEmail)
         }
 
-        // Assuming your ViewModel properly updates a LiveData or StateFlow upon successful like update
-        viewModel.updateLikesResult.observe(viewLifecycleOwner) { subjectDetailResponse ->
-            subjectDetailResponse?.let {
-                binding.likesTextView.text = subjectDetailResponse.data.likes.toString()
-                Toast.makeText(context, "Liked!", Toast.LENGTH_SHORT).show()
-            } ?: run {
-                Toast.makeText(context, "Error liking subject", Toast.LENGTH_SHORT).show()
+        // Observe the LiveData for like status updates from the ViewModel
+        viewModel.likeStatus.observe(viewLifecycleOwner) { likeStatus ->
+            when (likeStatus) {
+                "Liked" -> {
+                    // Here, you might want to re-fetch or update the subject detail to reflect the new likes count
+                    // For now, just show a success message
+                    Toast.makeText(context, "Liked!", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    // This covers the "Error" case and any exception messages
+                    Toast.makeText(context, "Error liking subject: $likeStatus", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

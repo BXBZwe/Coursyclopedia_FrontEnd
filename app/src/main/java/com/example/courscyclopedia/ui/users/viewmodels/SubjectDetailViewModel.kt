@@ -14,6 +14,8 @@ class SubjectDetailViewModel(private val repository: SubjectsRepository) : ViewM
     val subjectDetails: MutableLiveData<Subject?> = _subjectDetails
     private val _updateLikesResult = MutableLiveData<SubjectDetailResponse?>()
     val updateLikesResult: LiveData<SubjectDetailResponse?> = _updateLikesResult
+    private val _likeStatus = MutableLiveData<String>()
+    val likeStatus: LiveData<String> = _likeStatus
 
     fun fetchSubjectDetails(subjectId: String) {
         viewModelScope.launch {
@@ -26,26 +28,21 @@ class SubjectDetailViewModel(private val repository: SubjectsRepository) : ViewM
         }
     }
 
-    fun updateLikes(subjectId: String) {
+    fun addLike(subjectId: String, userEmail: String) {
         viewModelScope.launch {
             try {
-                // Get the current subject details to find out the current number of likes
-                val currentSubject = repository.getSubjectById(subjectId)
-                currentSubject?.let { subject ->
-                    // Increment the likes count
-                    val updatedLikes = subject.likes + 1
-
-                    // Repository call to update likes, passing in the subjectId and the new likes count
-                    val updatedSubjectResponse = repository.updateLikesForSubject(subjectId, updatedLikes)
-                    // Update LiveData with the result
-                    _updateLikesResult.value = updatedSubjectResponse
+                val response = repository.addLikeToSubject(subjectId, userEmail)
+                if (response.isSuccessful) {
+                    _likeStatus.value = "Liked"
+                } else {
+                    _likeStatus.value = "Error"
                 }
             } catch (e: Exception) {
-                // If there's an exception, handle it by posting a null or a specific error object to the LiveData
-                _updateLikesResult.value = null
+                _likeStatus.value = e.message
             }
         }
     }
+
 
 }
 

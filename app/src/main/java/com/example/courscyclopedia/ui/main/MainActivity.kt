@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.example.courscyclopedia.R
 import com.example.courscyclopedia.ui.users.fragments.SubjectDetailFragment
+import com.example.courscyclopedia.ui.util.SharedPreferencesUtils
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         val role = intent.getStringExtra("ROLE")
         Log.d("MainActivity", "Received role: $role")
         mAuth = FirebaseAuth.getInstance()
-
+//
         Handler(Looper.getMainLooper()).post {
             handleIntent()
         }
@@ -60,6 +61,8 @@ class MainActivity : AppCompatActivity() {
     private fun signOutAndStartSignInActivity() {
         mAuth.signOut()
 
+        SharedPreferencesUtils.clearUserEmail(this)
+
         mGoogleSignInClient.signOut().addOnCompleteListener(this) {
             // Optional: Update UI or show a message to the user
             val intent = Intent(this@MainActivity, SignInActivity::class.java)
@@ -87,4 +90,8 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity", "About to navigate to professor home page")
         findNavController(R.id.nav_host_fragment).navigate(R.id.professorFragment)
     }
+
+
+
+
 }
