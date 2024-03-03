@@ -45,6 +45,7 @@ class SubjectsRepository(private val apiService: ApiService) {
         }
     }
 
+
     suspend fun getAllSubjects(): Response<SubjectResponse> {
         return apiService.getAllSubjects()
     }

@@ -58,6 +58,21 @@ class MainActivity : AppCompatActivity() {
             signOutAndStartSignInActivity()
         }
 
+        findViewById<ImageButton>(R.id.ic_profile).setOnClickListener {
+            navigateToProfile()
+        }
+
+
+
+    }
+
+    private fun navigateToProfile() {
+        val navController = findNavController(R.id.nav_host_fragment)
+        navController.navigate(R.id.profileFragment)
+    }
+    private fun navigateToProfileSettings() {
+        val navController = findNavController(R.id.nav_host_fragment)
+        navController.navigate(R.id.profileSettingsFragment)
     }
     private fun signOutAndStartSignInActivity() {
         mAuth.signOut()
