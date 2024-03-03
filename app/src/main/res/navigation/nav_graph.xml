@@ -53,5 +53,30 @@
         android:name="com.example.courscyclopedia.ui.professors.fragments.AddSubjectFragment"
         android:label="add_subject_fragment" />
 
+    <fragment
+        android:id="@+id/profileSettingsFragment"
+        android:name="com.example.courscyclopedia.ui.users.fragments.ProfileSettingsFragment"
+        android:label="Profile Settings">
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.courscyclopedia.ui.users.fragments.ProfileFragment"
+        android:label="Profile"
+        >
+        <action
+            android:id="@+id/action_profileFragment_to_userWishlistFragment"
+            app:destination="@id/userWishlistFragment" />
+    </fragment>
+
+    <!-- User Wishlist Fragment -->
+    <fragment
+        android:id="@+id/userWishlistFragment"
+        android:name="com.example.courscyclopedia.ui.users.fragments.UserWishlistFragment"
+        android:label="Wishlist"
+         />
 </navigation>
 
